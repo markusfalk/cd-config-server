@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/markusfalk/cd-config-server#readme",
   "dependencies": {
+    "atob": "^2.1.2",
     "express": "^4.17.1",
     "https": "^1.0.0",
     "remote-git-tags": "^3.0.0",

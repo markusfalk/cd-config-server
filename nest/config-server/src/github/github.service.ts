@@ -1,12 +1,11 @@
 import { atob } from 'atob';
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Config } from 'src/_interfaces/config.interface';
+import { Tags } from 'src/_interfaces/tag.interface';
 import { Tree } from 'src/_interfaces/tree.interface';
 
 import { HttpService, Injectable } from '@nestjs/common';
-
-import { Config } from '../../dist/_interfaces/config.interface';
-import { Tags } from '../../dist/_interfaces/tag.interface';
 
 const config = {
   headers: {

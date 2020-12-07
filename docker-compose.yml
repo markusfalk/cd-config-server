@@ -1,0 +1,13 @@
+version: "3"
+services:
+  configserver:
+    container_name: cd-config-server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "${HTTPPORT}:3000"
+    environment:
+      - USERAGENT=${USERAGENT}
+      - GITHUBUSERNAME=${GITHUBUSERNAME}
+    # image: markusfalk/cd-config-server:latest

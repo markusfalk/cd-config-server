@@ -28,11 +28,11 @@ export class ConfigService {
    */
   getApi(appid: string, appversion: string, environment: string) {
     return this.githubService.getRemoteTags(appid).pipe(
-      switchMap((tags) => this.githubService.getTrees(tags)),
+      switchMap((tags) => this.githubService.getTrees(tags, appid)),
       switchMap((trees) =>
         this.githubService.findFileInTrees(trees, environment),
       ),
-      switchMap((files) => this.githubService.getFileContents(files)),
+      switchMap((files) => this.githubService.getFileContents(files, appid)),
       switchMap((configFiles) =>
         this.findMatchingFile(configFiles, appversion),
       ),

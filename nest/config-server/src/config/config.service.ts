@@ -1,32 +1,40 @@
-import { switchMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { satisfies } from 'semver';
 
 import { Injectable } from '@nestjs/common';
 
+import { Config } from '../_interfaces/config.interface';
 import { GithubService } from '../github/github.service';
 
 @Injectable()
 export class ConfigService {
-
   constructor(private readonly githubService: GithubService) {}
+
+  private findMatchingFile(configFiles: Config[], appVersion: string) {
+    const matched = configFiles.filter((file) => {
+      return satisfies(appVersion, file.compatibleWithAppVersion);
+    });
+    return of(matched);
+  }
 
   /*
    * ☑ load all tags from github
    * ☑ use hashes from tags to load trees
-   * ☐ load file content from tree entries
-   * ☐ find environment matching config file for each tag
-   * ☐ find config matching app version
+   * ☑ load file content from tree entries
+   * ☑ find environment matching config file for each tag
+   * ☑ find config matching app version
    */
   getApi(appid: string, appversion: string, environment: string) {
-    return this.githubService.getRemoteTags().pipe(
-      tap(console.log), // tags: ☑
+    return this.githubService.getRemoteTags(appid).pipe(
       switchMap((tags) => this.githubService.getTrees(tags)),
-      tap(console.log), // trees ☑
       switchMap((trees) =>
         this.githubService.findFileInTrees(trees, environment),
       ),
-      tap(console.log), // files ☑
       switchMap((files) => this.githubService.getFileContents(files)),
-      tap(console.log), // file contents
+      switchMap((configFiles) =>
+        this.findMatchingFile(configFiles, appversion),
+      ),
     );
   }
 }

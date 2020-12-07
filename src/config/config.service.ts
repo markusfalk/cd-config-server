@@ -15,7 +15,8 @@ export class ConfigService {
     const matched = configFiles.filter((file) => {
       return satisfies(appVersion, file.compatibleWithAppVersion);
     });
-    return of(matched);
+    const last = matched[matched.length - 1];
+    return of(last);
   }
 
   /*

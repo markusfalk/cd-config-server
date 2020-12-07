@@ -1,3 +1,3 @@
 export interface Tags {
-  [key: string]: string;
+  [key: string]: any;
 }

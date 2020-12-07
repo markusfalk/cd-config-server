@@ -8,7 +8,7 @@ import { Config } from '../_interfaces/config.interface';
 import { GithubService } from '../github/github.service';
 
 @Injectable()
-export class ConfigService {
+export class AppConfigService {
   constructor(private readonly githubService: GithubService) {}
 
   private findMatchingFile(configFiles: Config[], appVersion: string) {

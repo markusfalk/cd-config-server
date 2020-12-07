@@ -1,13 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 
 import { AppService } from './app.service';
-import { ConfigService } from './config/config.service';
+import { AppConfigService } from './appconfig/appconfig.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly configService: ConfigService,
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   @Get()
@@ -21,6 +21,6 @@ export class AppController {
     @Param('appversion') appversion: string,
     @Param('environment') environment: string,
   ) {
-    return this.configService.getApi(appid, appversion, environment);
+    return this.appConfigService.getApi(appid, appversion, environment);
   }
 }

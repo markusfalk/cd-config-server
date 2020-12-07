@@ -7,5 +7,4 @@ export class ConfigurationService {
   getEnvironmentConfig(key: string) {
     return this.env[key];
   }
-
 }

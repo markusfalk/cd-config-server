@@ -1,4 +1,5 @@
 import { HttpModule, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
 import { ConfigurationService } from './_services/configuration/configuration.service';
 import { AppController } from './app.controller';
@@ -7,7 +8,7 @@ import { AppConfigService } from './appconfig/appconfig.service';
 import { GithubService } from './github/github.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [
     AppService,

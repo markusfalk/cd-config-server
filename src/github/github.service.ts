@@ -16,29 +16,45 @@ export class GithubService {
     private readonly http: HttpService,
   ) {}
 
+  private githubUserName = this.configService.getEnvironmentConfig(
+    'GITHUBUSERNAME',
+  );
+
+  private githubPassword = this.configService.getEnvironmentConfig(
+    'GITHUBPASSWORD',
+  );
+
+  private auth =
+    'Basic ' +
+    Buffer.from(this.githubUserName + ':' + this.githubPassword).toString(
+      'base64',
+    );
+
   private config = {
     headers: {
       'User-Agent': this.configService.getEnvironmentConfig('USERAGENT'),
       'Content-Type': 'application/json',
+      Authorization: this.auth,
     },
   };
 
   private loadTreeFromHash(hash: Tags, appid: string): Observable<Tree[]> {
     hash = Object.values(hash)[0];
-    const githubUserName = this.configService.getEnvironmentConfig(
-      'GITHUBUSERNAME',
-    );
-    const url = `https://api.github.com/repos/${githubUserName}/${appid}-config/git/trees/${hash}`;
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/trees/${hash}`;
     return this.http
       .get<Tree>(url, this.config)
       .pipe(switchMap((response) => of(response.data.tree)));
   }
 
   getRemoteTags(repo: string) {
-    const githubUserName = this.configService.getEnvironmentConfig(
-      'GITHUBUSERNAME',
-    );
-    const url = `https://api.github.com/repos/${githubUserName}/${repo}-config/git/refs/tags`;
+
+    this.http
+      .get('https://api.github.com/rate_limit', this.config)
+      .subscribe((response) => {
+        console.log('RATE LIMIT', response.data.rate);
+      });
+
+    const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
     return this.http.get(url, this.config).pipe(
       switchMap((response) => {
         const tags = response.data.map((tag: Tags) => {
@@ -73,10 +89,7 @@ export class GithubService {
   }
 
   private loadFileContent(hash: string, appid: string): Observable<Config> {
-    const githubUserName = this.configService.getEnvironmentConfig(
-      'GITHUBUSERNAME',
-    );
-    const url = `https://api.github.com/repos/${githubUserName}/${appid}-config/git/blobs/${hash}`;
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
     return this.http
       .get<Config>(url, this.config)
       .pipe(

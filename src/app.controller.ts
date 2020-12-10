@@ -1,9 +1,12 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
+} from '@nestjs/common';
 
 import { AppService } from './app.service';
 import { AppConfigService } from './appconfig/appconfig.service';
 
 @Controller()
+@UseInterceptors(CacheInterceptor)
 export class AppController {
   constructor(
     private readonly appService: AppService,
@@ -16,6 +19,7 @@ export class AppController {
   }
 
   @Get('/:appid/:appversion/:environment')
+  @CacheTTL(5 * 60)
   getConfig(
     @Param('appid') appid: string,
     @Param('appversion') appversion: string,

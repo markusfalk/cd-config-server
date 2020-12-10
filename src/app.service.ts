@@ -12,6 +12,7 @@ export class AppService {
             <title>CD Config Server</title>
             <link href="https://fonts.googleapis.com/css?family=Comfortaa&amp;display=swap" rel="stylesheet">
             <style>
+                a,
                 html {
                   font-family: 'Comfortaa', Verdana, Geneva, Tahoma, sans-serif;
                   color: #333;

@@ -1,6 +1,7 @@
 import {
   CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
 } from '@nestjs/common';
+import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
 import { AppConfigService } from './appconfig/appconfig.service';
@@ -14,12 +15,31 @@ export class AppController {
   ) {}
 
   @Get()
+  @ApiOperation({ description: 'Project Homepage.' })
   getApiRoot(): string {
     return this.appService.getApiRoot();
   }
 
+  /*
+   * @param {string} appid An identifier of your app.
+   * @param {string} appversion The semantic version matching of your app.
+   * @param {string} environment An identifier of the current environment
+   */
   @Get('/:appid/:appversion/:environment')
   @CacheTTL(5 * 60)
+  @ApiOperation({ description: 'Load the config file from your repo.' })
+  @ApiParam({
+    name: 'appid',
+    description: 'An identifier of your app.',
+  })
+  @ApiParam({
+    name: 'appversion',
+    description: 'The semantic version matching of your app.',
+  })
+  @ApiParam({
+    name: 'environment',
+    description: 'An identifier of the current environment.',
+  })
   getConfig(
     @Param('appid') appid: string,
     @Param('appversion') appversion: string,

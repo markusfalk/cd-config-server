@@ -20,11 +20,6 @@ export class AppController {
     return this.appService.getApiRoot();
   }
 
-  /*
-   * @param {string} appid An identifier of your app.
-   * @param {string} appversion The semantic version matching of your app.
-   * @param {string} environment An identifier of the current environment
-   */
   @Get('/:appid/:appversion/:environment')
   @CacheTTL(5 * 60)
   @ApiOperation({ description: 'Load the config file from your repo.' })

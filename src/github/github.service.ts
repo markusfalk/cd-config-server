@@ -7,30 +7,55 @@ import { HttpService, Injectable } from '@nestjs/common';
 import { Config } from '../_interfaces/config.interface';
 import { Tags } from '../_interfaces/tag.interface';
 import { Tree } from '../_interfaces/tree.interface';
-
-const config = {
-  headers: {
-    'User-Agent': 'markusfalk',
-    'Content-Type': 'application/json',
-  },
-};
+import { ConfigurationService } from '../_services/configuration/configuration.service';
 
 @Injectable()
 export class GithubService {
+  constructor(
+    private configService: ConfigurationService,
+    private readonly http: HttpService,
+  ) {}
 
-  constructor(private readonly http: HttpService) {}
+  private githubUserName = this.configService.getEnvironmentConfig(
+    'GITHUBUSERNAME',
+  );
 
-  private loadTreeFromHash(hash: Tags): Observable<Tree[]> {
+  private githubPassword = this.configService.getEnvironmentConfig(
+    'GITHUBPASSWORD',
+  );
+
+  private auth =
+    'Basic ' +
+    Buffer.from(this.githubUserName + ':' + this.githubPassword).toString(
+      'base64',
+    );
+
+  private config = {
+    headers: {
+      'User-Agent': this.configService.getEnvironmentConfig('USERAGENT'),
+      'Content-Type': 'application/json',
+      Authorization: this.auth,
+    },
+  };
+
+  private loadTreeFromHash(hash: Tags, appid: string): Observable<Tree[]> {
     hash = Object.values(hash)[0];
-    const url = `https://api.github.com/repos/markusfalk/cd-config-server-test-config/git/trees/${hash}`;
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/trees/${hash}`;
     return this.http
-      .get<Tree>(url)
+      .get<Tree>(url, this.config)
       .pipe(switchMap((response) => of(response.data.tree)));
   }
 
   getRemoteTags(repo: string) {
-    const url = `https://api.github.com/repos/markusfalk/${repo}-config/git/refs/tags`;
-    return this.http.get(url, config).pipe(
+
+    this.http
+      .get('https://api.github.com/rate_limit', this.config)
+      .subscribe((response) => {
+        console.log('RATE LIMIT', response.data.rate);
+      });
+
+    const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
+    return this.http.get(url, this.config).pipe(
       switchMap((response) => {
         const tags = response.data.map((tag: Tags) => {
           const obj = {};
@@ -44,10 +69,10 @@ export class GithubService {
     );
   }
 
-  getTrees(tags: Tags[]): Observable<Tree[][]> {
+  getTrees(tags: Tags[], appid: string): Observable<Tree[][]> {
     const allTrees: Observable<Tree[]>[] = [];
     tags.forEach((tag) => {
-      allTrees.push(this.loadTreeFromHash(tag));
+      allTrees.push(this.loadTreeFromHash(tag, appid));
     });
     return combineLatest([...allTrees]);
   }
@@ -63,22 +88,21 @@ export class GithubService {
     return of(allFiles);
   }
 
-  private loadFileContent(hash: string): Observable<Config> {
-    const url = `https://api.github.com/repos/markusfalk/cd-config-server-test-config/git/blobs/${hash}`;
+  private loadFileContent(hash: string, appid: string): Observable<Config> {
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
     return this.http
-      .get<Config>(url)
+      .get<Config>(url, this.config)
       .pipe(
         switchMap((response) => of(JSON.parse(atob(response.data.content)))),
       );
   }
 
-  getFileContents(files: { [index: string]: any }[][]) {
+  getFileContents(files: { [index: string]: any }[][], appid: string) {
     const allFiles: Observable<Config>[] = [];
     files.forEach((file) => {
       const sha: string = file[0].sha;
-      allFiles.push(this.loadFileContent(sha));
+      allFiles.push(this.loadFileContent(sha, appid));
     });
     return combineLatest([...allFiles]);
   }
-
 }

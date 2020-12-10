@@ -1,26 +1,50 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
+} from '@nestjs/common';
+import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
 import { AppService } from './app.service';
-import { ConfigService } from './config/config.service';
+import { AppConfigService } from './appconfig/appconfig.service';
 
 @Controller()
+@UseInterceptors(CacheInterceptor)
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly configService: ConfigService,
+    private readonly appConfigService: AppConfigService,
   ) {}
 
   @Get()
+  @ApiOperation({ description: 'Project Homepage.' })
   getApiRoot(): string {
     return this.appService.getApiRoot();
   }
 
+  /*
+   * @param {string} appid An identifier of your app.
+   * @param {string} appversion The semantic version matching of your app.
+   * @param {string} environment An identifier of the current environment
+   */
   @Get('/:appid/:appversion/:environment')
+  @CacheTTL(5 * 60)
+  @ApiOperation({ description: 'Load the config file from your repo.' })
+  @ApiParam({
+    name: 'appid',
+    description: 'An identifier of your app.',
+  })
+  @ApiParam({
+    name: 'appversion',
+    description: 'The semantic version matching of your app.',
+  })
+  @ApiParam({
+    name: 'environment',
+    description: 'An identifier of the current environment.',
+  })
   getConfig(
     @Param('appid') appid: string,
     @Param('appversion') appversion: string,
     @Param('environment') environment: string,
   ) {
-    return this.configService.getApi(appid, appversion, environment);
+    return this.appConfigService.getApi(appid, appversion, environment);
   }
 }

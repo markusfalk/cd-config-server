@@ -1,13 +1,20 @@
-import { HttpModule, Module } from '@nestjs/common';
+import { CacheModule, HttpModule, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 
+import { ConfigurationService } from './_services/configuration/configuration.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigService } from './config/config.service';
+import { AppConfigService } from './appconfig/appconfig.service';
 import { GithubService } from './github/github.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [HttpModule, ConfigModule.forRoot(), CacheModule.register()],
   controllers: [AppController],
-  providers: [AppService, ConfigService, GithubService],
+  providers: [
+    AppService,
+    AppConfigService,
+    GithubService,
+    ConfigurationService,
+  ],
 })
 export class AppModule {}

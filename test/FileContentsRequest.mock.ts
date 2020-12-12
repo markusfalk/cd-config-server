@@ -1,0 +1,32 @@
+import { AxiosResponse } from 'axios';
+import { of } from 'rxjs';
+
+import { HttpService } from '@nestjs/common';
+
+import { Config } from '../src/_interfaces/config.interface';
+import { FileBlob } from '../src/_interfaces/file-blob.interface';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const btoa = require('btoa');
+const mockBlobContent: Config = {
+  compatibleWithAppVersion: '1.0.0',
+  content: 'foo',
+};
+
+export function mockFileContentRequest(httpService: HttpService) {
+  const result: AxiosResponse<FileBlob> = {
+    data: {
+      sha: '',
+      node_id: '',
+      size: 123,
+      url: '',
+      content: btoa(JSON.stringify(mockBlobContent)),
+      encoding: '',
+    },
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config: {},
+  };
+  jest.spyOn(httpService, 'get').mockImplementationOnce(() => of(result));
+}

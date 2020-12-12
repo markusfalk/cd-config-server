@@ -28,14 +28,24 @@ export class AppConfigService {
    */
   getApi(appid: string, appversion: string, environment: string) {
     return this.githubService.getRemoteTags(appid).pipe(
-      switchMap((tags) => this.githubService.getTrees(tags, appid)),
-      switchMap((trees) =>
-        this.githubService.findFileInTrees(trees, environment),
+      // tap(console.log), // tags
+      switchMap((tagCollections) =>
+        this.githubService.getTrees(tagCollections, appid),
       ),
+      // tap(console.log), // trees
+      switchMap((trees) =>
+        this.githubService.findFileTreesFilteredByEnvironment(
+          trees,
+          environment,
+        ),
+      ),
+      // tap(console.log), // files by environment
       switchMap((files) => this.githubService.getFileContents(files, appid)),
+      // tap(console.log),
       switchMap((configFiles) =>
         this.findMatchingFile(configFiles, appversion),
       ),
+      // tap(console.log),
     );
   }
 }

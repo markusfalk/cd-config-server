@@ -5,8 +5,11 @@ import { switchMap } from 'rxjs/operators';
 import { HttpService, Injectable } from '@nestjs/common';
 
 import { Config } from '../_interfaces/config.interface';
-import { Tags } from '../_interfaces/tag.interface';
+import { FileBlob } from '../_interfaces/file-blob.interface';
+import { TagCollection } from '../_interfaces/tag-collection.interface';
+import { Tag } from '../_interfaces/tag.interface';
 import { Tree } from '../_interfaces/tree.interface';
+import { Trees } from '../_interfaces/trees.interface';
 import { ConfigurationService } from '../_services/configuration/configuration.service';
 
 @Injectable()
@@ -38,15 +41,27 @@ export class GithubService {
     },
   };
 
-  private loadTreeFromHash(hash: Tags, appid: string): Observable<Tree[]> {
-    hash = Object.values(hash)[0];
-    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/trees/${hash}`;
+  private loadTreeFromHash(
+    tagCollection: TagCollection,
+    appid: string,
+  ): Observable<Tree[]> {
+    const collection = Object.values(tagCollection)[0];
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/trees/${collection}`;
     return this.http
-      .get<Tree>(url, this.config)
+      .get<Trees>(url, this.config)
       .pipe(switchMap((response) => of(response.data.tree)));
   }
 
-  getRemoteTags(repo: string) {
+  private loadFileContent(hash: string, appid: string): Observable<Config> {
+    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
+    return this.http
+      .get<FileBlob>(url, this.config)
+      .pipe(
+        switchMap((response) => of(JSON.parse(atob(response.data.content)))),
+      );
+  }
+
+  getRemoteTags(repo: string): Observable<TagCollection[]> {
 
     this.http
       .get('https://api.github.com/rate_limit', this.config)
@@ -55,11 +70,11 @@ export class GithubService {
       });
 
     const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
-    return this.http.get(url, this.config).pipe(
+    return this.http.get<Tag[]>(url, this.config).pipe(
       switchMap((response) => {
-        const tags = response.data.map((tag: Tags) => {
-          const obj = {};
-          const ref = (tag.ref as string).replace('refs/tags/', '');
+        const tags = response.data.map((tag: Tag) => {
+          const obj: TagCollection = {};
+          const ref = tag.ref.replace('refs/tags/', '');
           const sha = tag.object.sha;
           obj[ref] = sha;
           return obj;
@@ -69,38 +84,39 @@ export class GithubService {
     );
   }
 
-  getTrees(tags: Tags[], appid: string): Observable<Tree[][]> {
+  getTrees(
+    tagCollections: TagCollection[],
+    appid: string,
+  ): Observable<Tree[][]> {
     const allTrees: Observable<Tree[]>[] = [];
-    tags.forEach((tag) => {
-      allTrees.push(this.loadTreeFromHash(tag, appid));
+    tagCollections.forEach((tag) => {
+      const tree = this.loadTreeFromHash(tag, appid);
+      allTrees.push(tree);
     });
     return combineLatest([...allTrees]);
   }
 
-  findFileInTrees(trees: { [index: string]: any }[][], environment: string) {
-    const allFiles = [];
+  findFileTreesFilteredByEnvironment(trees: Tree[][], environment: string) {
+    const allFiles: Tree[][] = [];
+
     trees.forEach((tree) => {
-      const filtered = tree.filter((file) => {
-        return (file.path as string).includes(environment);
+
+      const filtered = tree.filter((fileTree) => {
+        return fileTree.path.includes(environment);
       });
-      allFiles.push(filtered);
+
+      if (filtered.length) {
+        allFiles.push(filtered);
+      }
     });
+
     return of(allFiles);
   }
 
-  private loadFileContent(hash: string, appid: string): Observable<Config> {
-    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
-    return this.http
-      .get<Config>(url, this.config)
-      .pipe(
-        switchMap((response) => of(JSON.parse(atob(response.data.content)))),
-      );
-  }
-
-  getFileContents(files: { [index: string]: any }[][], appid: string) {
+  getFileContents(trees: Tree[][], appid: string) {
     const allFiles: Observable<Config>[] = [];
-    files.forEach((file) => {
-      const sha: string = file[0].sha;
+    trees.forEach((tree) => {
+      const sha: string = tree[0].sha;
       allFiles.push(this.loadFileContent(sha, appid));
     });
     return combineLatest([...allFiles]);

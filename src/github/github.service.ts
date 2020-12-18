@@ -61,13 +61,11 @@ export class GithubService {
       );
   }
 
-  getRemoteTags(repo: string): Observable<TagCollection[]> {
+  logRateLimit() {
+    return this.http.get('https://api.github.com/rate_limit', this.config);
+  }
 
-    this.http
-      .get('https://api.github.com/rate_limit', this.config)
-      .subscribe((response) => {
-        console.log('RATE LIMIT', response.data.rate);
-      });
+  getRemoteTags(repo: string): Observable<TagCollection[]> {
 
     const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
     return this.http.get<Tag[]>(url, this.config).pipe(

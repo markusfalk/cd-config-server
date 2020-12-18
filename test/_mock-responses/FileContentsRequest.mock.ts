@@ -10,10 +10,23 @@ import { FileBlob } from '../../src/_interfaces/file-blob.interface';
 const btoa = require('btoa');
 const mockBlobContent: Config = {
   compatibleWithAppVersion: '1.0.0',
-  content: 'development',
+  content: 'staging',
 };
 
-export function mockFileContentRequest(httpService: HttpService) {
+export function mockFileContentRequest(
+  httpService: HttpService,
+  version?: string,
+  environment?: string,
+) {
+
+  if (version) {
+    mockBlobContent.compatibleWithAppVersion = version;
+  }
+
+  if (environment) {
+    mockBlobContent.content = environment;
+  }
+
   const result: AxiosResponse<FileBlob> = {
     data: {
       sha: '',

@@ -1,10 +1,10 @@
 {
   "name": "config-server",
   "version": "0.0.2",
-  "description": "",
-  "author": "",
+  "description": "A REST Continuous Delivery Configuration Server for Github",
+  "author": "mail@markus-falk.com",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
@@ -19,16 +19,13 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
+    "jest": "jest",
+    "test": "npm run jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "release": "standard-version",
-    "docker:deploy:latest": "npm run docker:build:latest && npm run docker:push && say 'fertig'",
-    "docker:build:version": "docker build -t markusfalk/cd-config-server:$npm_package_version .",
-    "docker:build:latest": "docker build -t markusfalk/cd-config-server:latest .",
-    "docker:push": "docker push markusfalk/cd-config-server"
+    "release": "standard-version"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",

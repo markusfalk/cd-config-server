@@ -48,5 +48,5 @@ export const mockGithubService: Partial<GithubService> = {
   getRemoteTags: () => of(mockTagCollection),
   getTrees: () => of([[mockTreeDevelopment]]),
   findFileTreesFilteredByEnvironment: () => of([[mockTreeDevelopment]]),
-  getFileContents: () => of([{ compatibleWithAppVersion: '1.0.0' }]),
+  getFileContents: () => of([{ compatibleWithAppVersion: '1.0.0', content: 'development' }]),
 };

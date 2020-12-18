@@ -59,6 +59,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
+          repository: markusfalk/cd-config-server  
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

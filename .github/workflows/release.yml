@@ -34,9 +34,6 @@ jobs:
       - name: package-version
         uses: nyaa8/package-version@v1.0.3
 
-      - name: log version
-        run: echo ${{ env.PACKAGE_VERSION }}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -52,7 +49,10 @@ jobs:
       - name: docker build
         uses: docker/build-push-action@v2.2.1
         with:
-          tags: markusfalk/cd-config-server:latest
+          push: true
+          tags: |
+            markusfalk/cd-config-server:latest
+            markusfalk/cd-config-server:${{ env.PACKAGE_VERSION }}
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}

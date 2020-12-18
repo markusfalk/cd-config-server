@@ -77,23 +77,6 @@ export class AppService {
                   <li><a href="/cd-config-server-test/1.0.0/production">/cd-config-server-test/1.0.0/production</a></li>
                 </ul>
 
-                <h2>Proof of Concept Config Files</h2>
-
-                <h3>Matching Entry</h3>
-                <p>Param appversion is matched against this configured range in the config file.</p>
-                <code>
-                  {<br>
-                  &nbsp;&nbsp;"compatibleWithAppVersion": "2.0.0",<br>
-                  &nbsp;&nbsp;...<br>
-                  }
-                </code>
-
-                <h3>Github Repository</h3>
-                <p>Repository name: &lt;:appid&gt;-config</p>
-                <ul>
-                  <li><a href="https://github.com/markusfalk/cd-config-server-test-config">https://github.com/markusfalk/cd-config-server-test-config</a></li>
-                </ul>
-
             </main>
         </body>
     </html>

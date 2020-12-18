@@ -29,7 +29,7 @@ jobs:
           npm run test:e2e
 
       - name: tag release
-        run: npm run release -- --dry-run --skip.postbump
+        run: npm run release -- --dry-run
 
       - name: Login to DockerHub
         uses: docker/login-action@v1

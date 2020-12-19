@@ -3,7 +3,7 @@ import * as rateLimit from 'express-rate-limit';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { version } from '../package.json';
+import { version } from './_services/configuration/version.json';
 import { AppModule } from './app.module';
 
 async function bootstrap() {

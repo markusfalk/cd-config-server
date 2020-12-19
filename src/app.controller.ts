@@ -44,7 +44,6 @@ export class AppController {
   ) {
     return this.appConfigService.getApi(appid, appversion, environment).pipe(
       catchError((err) => {
-        console.error('Error:', err);
         throw new HttpException(
           {
             status: HttpStatus.NOT_FOUND,

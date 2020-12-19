@@ -12,26 +12,39 @@ export class AppService {
             <title>CD Config Server</title>
             <link href="https://fonts.googleapis.com/css?family=Comfortaa&amp;display=swap" rel="stylesheet">
             <style>
+
+                html {
+                  background-color: #eee;
+                }
                 a,
                 html {
                   font-family: 'Comfortaa', Verdana, Geneva, Tahoma, sans-serif;
                   color: #333;
+                }
+                a:link,
+                a:visited {
+                  color: #c86dd7;
                 }
                 main {
                   padding: 5rem;
                   box-sizing: border-box;
                   max-width: 80%;
                   margin: 50px auto;
-                  background-color: #eee;
+                  background-color: #fff;
                   border-radius: 5rem;
                 }
                 img {
                   margin: 0 auto;
                   display: block;
+                  filter: drop-shadow(0 0 15px #ccc);
+                }
+                h1, h2, h3 {
+                  color: #3023ae;
                 }
                 h1 {
                   text-align: center;
                   margin: 3rem 0;
+                  line-height: 1.4;
                 }
                 h2 {
                   margin-top: 3rem;
@@ -54,14 +67,19 @@ export class AppService {
         <body>
             <main>
 
-                <img width="200" height="200" src="https://github.com/markusfalk/git-workflow/raw/master/git-workflow-logo.svg" alt="" />
+                <img width="200" height="200" src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" />
 
-                <h1>Continuous Delivery Configuration Server for Github</h1>
+                <h1>Continuous Delivery Configuration Server</h1>
 
-                <h2>Open Api</h2>
-                <p><a href="/api">Api Documentation</a></p>
+                <h2>Documentation</h2>
+                <ul>
+                  <li><a href="/api">Open Api</a></li>
+                  <li><a href="https://hub.docker.com/r/markusfalk/cd-config-server">Documentation</a></li>
+                </ul>
 
                 <h2>Usage Examples</h2>
+
+                <p>The following examples use a demo <a href="https://github.com/markusfalk/cd-config-server-test-config" title="go to github">configuration repository</a>.</p>
 
                 <h3>Different Versions</h3>
                 <ul>

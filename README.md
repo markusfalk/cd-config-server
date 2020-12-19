@@ -1,12 +1,12 @@
-<img src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
+<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-logo.svg?token=AAKKHMDUWRBBM3YPS5BDWMK744S2A" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
 
 # Continuous Delivery Configuration Server ![Publish](https://github.com/markusfalk/cd-config-server/workflows/Release/badge.svg)
+
+<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt="" width="1024" height="512" style="display: block; margin: 50px auto;"/>
 
 This server provides a configuration API to be used within Continuous Delivery environments.
 
 ## Concept
-
-<img src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
 
 The idea behind this software is to provide a global service for your apps to receive configuration values from. Configuration is stored in a git repository that is seperated from the repositories in which your apps reside. This makes it possible for apps and configurations to have independent lifecyles and both be treated like code.
 

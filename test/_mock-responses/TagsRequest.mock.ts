@@ -4,7 +4,8 @@ import { Tag } from 'src/_interfaces/tag.interface';
 
 import { HttpService } from '@nestjs/common';
 
-const response = [
+const responseWithoutTags = [];
+const responseWithTags = [
   {
     node_id: '',
     object: {
@@ -27,9 +28,9 @@ const response = [
   },
 ];
 
-export function mockTagsResponse(httpService: HttpService) {
+export function mockTagsResponse(httpService: HttpService, empty?: boolean) {
   const result: AxiosResponse<Tag[]> = {
-    data: response,
+    data: empty ? responseWithoutTags : responseWithTags,
     status: 200,
     statusText: 'OK',
     headers: {},

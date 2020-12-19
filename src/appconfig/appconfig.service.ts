@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { satisfies } from 'semver';
 
@@ -13,10 +13,20 @@ export class AppConfigService {
 
   private findMatchingFile(configFiles: Config[], appVersion: string) {
     const matched = configFiles.filter((file) => {
-      return satisfies(appVersion, file.compatibleWithAppVersion);
+      if (file.compatibleWithAppVersion) {
+        return satisfies(appVersion, file.compatibleWithAppVersion);
+      } else {
+        return throwError(
+          `The config file must include the key  'compatibleWithAppVersion'`,
+        );
+      }
     });
     const last = matched[matched.length - 1];
-    return of(last);
+    if (last) {
+      return of(last);
+    } else {
+      return throwError(`No config found matching ${appVersion}`);
+    }
   }
 
   /*

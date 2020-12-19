@@ -1,5 +1,7 @@
+import { catchError } from 'rxjs/operators';
+
 import {
-  CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
+  CacheInterceptor, CacheTTL, Controller, Get, HttpException, HttpStatus, Param, UseInterceptors
 } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
@@ -9,7 +11,6 @@ import { AppConfigService } from './appconfig/appconfig.service';
 @Controller()
 @UseInterceptors(CacheInterceptor)
 export class AppController {
-
   constructor(
     private readonly appService: AppService,
     private readonly appConfigService: AppConfigService,
@@ -41,6 +42,17 @@ export class AppController {
     @Param('appversion') appversion: string,
     @Param('environment') environment: string,
   ) {
-    return this.appConfigService.getApi(appid, appversion, environment);
+    return this.appConfigService.getApi(appid, appversion, environment).pipe(
+      catchError((err) => {
+        console.error('Error:', err);
+        throw new HttpException(
+          {
+            status: HttpStatus.NOT_FOUND,
+            error: err,
+          },
+          HttpStatus.NOT_FOUND,
+        );
+      }),
+    );
   }
 }

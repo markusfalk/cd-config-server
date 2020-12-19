@@ -76,6 +76,7 @@ describe('GithubService', () => {
       `https://api.github.com/repos/${process.env['GITHUBUSERNAME']}/${appid}-config/git/refs/tags`,
       expect.anything(),
     );
+
   });
 
   it('should getTrees', () => {

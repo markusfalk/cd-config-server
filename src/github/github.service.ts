@@ -1,5 +1,5 @@
 import { atob } from 'atob';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { HttpService, Injectable } from '@nestjs/common';
@@ -77,7 +77,11 @@ export class GithubService {
           obj[ref] = sha;
           return obj;
         });
-        return of(tags);
+        if (tags.length) {
+          return of(tags);
+        } else {
+          return throwError(`No tags found in repo ${repo}`);
+        }
       }),
     );
   }

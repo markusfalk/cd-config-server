@@ -34,6 +34,8 @@ export class AppService {
                   border-radius: 5rem;
                 }
                 img {
+                  max-width: 100%;
+                  height: auto;
                   margin: 0 auto;
                   display: block;
                   filter: drop-shadow(0 0 15px #ccc);
@@ -70,6 +72,8 @@ export class AppService {
                 <img width="200" height="200" src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" />
 
                 <h1>Continuous Delivery Configuration Server</h1>
+
+                <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt="" width="1024" height="512" />
 
                 <h2>Documentation</h2>
                 <ul>

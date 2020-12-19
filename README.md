@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-logo.svg?token=AAKKHMDUWRBBM3YPS5BDWMK744S2A" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
 
-# Continuous Delivery Configuration Server ![Publish](https://github.com/markusfalk/cd-config-server/workflows/Release/badge.svg)
+# Continuous Delivery Configuration Server
 
 <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt="" width="1024" height="512" style="display: block; margin: 50px auto;"/>
 
@@ -80,9 +80,9 @@ To match application version and configuration you must provide the `compatibleW
 The server is provided as a docker image and can be started with the following options:
 
 | name | default | description |
-|-|-|-|-|
-| GITHUBUSERNAME |  | used for authentication |
-| GITHUBPASSWORD |  | used for authentication |
+|-|-|-|
+| GITHUBUSERNAME* |  | used for authentication |
+| GITHUBPASSWORD* |  | used for authentication |
 | USERAGENT* |  | used for authentication |
 | HTTPPORT | 3000 | What port would you like docker to expose this service to |
 | CACHE_TTL | 300 | This service uses an in memory cache and this is how long it lives in seconds |

@@ -27,4 +27,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: list with options
-      run: "ls ${{ github.event.inputs.options }}"
+      run: "echo ${{ github.event.inputs.options }}"

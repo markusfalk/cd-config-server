@@ -41,6 +41,7 @@ jobs:
           git config user.name markusfalk
           git config user.email mail@markus-falk.com
           npm run release ${{ github.event.inputs.release_options }}
+          git push --follow-tags origin main
 
       - name: package-version
         uses: nyaa8/package-version@v1.0.3

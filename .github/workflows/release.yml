@@ -37,7 +37,10 @@ jobs:
           npm run test:e2e
 
       - name: npm release
-        run: npm run release ${{ github.event.inputs.release_options }}
+        run: |
+          git config user.name markusfalk
+          git config user.email mail@markus-falk.com
+          npm run release ${{ github.event.inputs.release_options }}
 
       - name: package-version
         uses: nyaa8/package-version@v1.0.3

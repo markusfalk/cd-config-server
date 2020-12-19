@@ -3,6 +3,7 @@ import * as rateLimit from 'express-rate-limit';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import { version } from '../package.json';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -10,21 +11,23 @@ async function bootstrap() {
 
   // Swagger
   const options = new DocumentBuilder()
-    .setTitle('Continuous Delivery Config Server for Github')
+    .setTitle('Continuous Delivery Config Server')
     .setDescription(
       'Used to configure your app at runtime at different stages of your continuous delivery pipeline.',
     )
-    .setVersion('0.0.1')
-    // .addTag('configs')
+    .setVersion(version)
+    // .addTag('configs') // TODO: find out what this is for
     .build();
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 
   // Rate Limit
+  // TODO: get rate limit from .env
   app.use(
     rateLimit({
-      windowMs: 60 * 60 * 1000,
-      max: 5000,
+      windowMs: parseFloat(process.env['RATE_LIMIT_MS']) || 360000,
+      max: parseFloat(process.env['RATE_LIMIT_MAX']) || 5000,
     }),
   );
 

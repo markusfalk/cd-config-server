@@ -9,6 +9,7 @@ import { AppConfigService } from './appconfig/appconfig.service';
 @Controller()
 @UseInterceptors(CacheInterceptor)
 export class AppController {
+
   constructor(
     private readonly appService: AppService,
     private readonly appConfigService: AppConfigService,
@@ -21,7 +22,7 @@ export class AppController {
   }
 
   @Get('/:appid/:appversion/:environment')
-  @CacheTTL(5 * 60)
+  @CacheTTL(parseFloat(process.env['CACHE_TTL']) || 300)
   @ApiOperation({ description: 'Load the config file from your repo.' })
   @ApiParam({
     name: 'appid',

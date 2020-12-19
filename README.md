@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
 
-# Continuous Delivery Configuration Server for Github ![Publish](https://github.com/markusfalk/cd-config-server/workflows/Release/badge.svg)
+# Continuous Delivery Configuration Server ![Publish](https://github.com/markusfalk/cd-config-server/workflows/Release/badge.svg)
 
 This server provides a configuration API to be used within Continuous Delivery environments.
 

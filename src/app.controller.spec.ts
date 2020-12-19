@@ -29,7 +29,7 @@ describe('AppController', () => {
   describe('root', () => {
     it('should return', () => {
       expect(appController.getApiRoot()).toContain(
-        'Continuous Delivery Configuration Server for Github',
+        'Continuous Delivery Configuration Server',
       );
     });
   });

@@ -10,4 +10,6 @@ services:
     environment:
       - USERAGENT=${USERAGENT}
       - GITHUBUSERNAME=${GITHUBUSERNAME}
-    # image: markusfalk/cd-config-server:latest
+      - CACHE_TTL=${CACHE_TTL}
+      - RATE_LIMIT_MS=${RATE_LIMIT_MS}
+      - RATE_LIMIT_MAX=${RATE_LIMIT_MAX}

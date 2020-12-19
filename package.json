@@ -1,7 +1,7 @@
 {
   "name": "config-server",
   "version": "0.0.2",
-  "description": "A REST Continuous Delivery Configuration Server for Github",
+  "description": "A REST Continuous Delivery Configuration Server",
   "author": "mail@markus-falk.com",
   "private": true,
   "license": "MIT",
@@ -25,7 +25,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "release": "standard-version"
+    "release": "standard-version",
+    "docker:build:version": "docker build -t markusfalk/cd-config-server:$npm_package_version .",
+    "docker:build:latest": "docker build -t markusfalk/cd-config-server:latest ."
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",

@@ -2,7 +2,7 @@
 
 # Continuous Delivery Configuration Server
 
-<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt="" width="1024" height="512" style="display: block; margin: 50px auto;"/>
+<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt=""  style="display: block; margin: 50px auto;"/>
 
 This server provides a configuration API to be used within Continuous Delivery environments.
 

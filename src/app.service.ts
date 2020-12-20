@@ -73,7 +73,7 @@ export class AppService {
 
                 <h1>Continuous Delivery Configuration Server</h1>
 
-                <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt="" width="1024" height="512" />
+                <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMDEMXHF36D2FYULW2275CIJ4" alt="" width="1024" height="512" />
 
                 <h2>Documentation</h2>
                 <ul>

@@ -56,24 +56,24 @@ describe('Config Endpoints (e2e)', () => {
 
     // tags
     expect(httpService.get).toHaveBeenCalledWith(
-      `https://api.github.com/repos/${process.env['GITHUBUSERNAME']}/${appid}-config/git/refs/tags`,
+      `https://api.github.com/repos/${mockNodeEnvironmentVariables.GITHUBUSERNAME}/${appid}-config/git/refs/tags`,
       expect.anything(),
     );
 
     // trees
     expect(httpService.get).toHaveBeenCalledWith(
-      `https://api.github.com/repos/${process.env['GITHUBUSERNAME']}/${appid}-config/git/trees/abc`,
+      `https://api.github.com/repos/${mockNodeEnvironmentVariables.GITHUBUSERNAME}/${appid}-config/git/trees/abc`,
       expect.anything(),
     );
 
     expect(httpService.get).toHaveBeenCalledWith(
-      `https://api.github.com/repos/${process.env['GITHUBUSERNAME']}/${appid}-config/git/trees/def`,
+      `https://api.github.com/repos/${mockNodeEnvironmentVariables.GITHUBUSERNAME}/${appid}-config/git/trees/def`,
       expect.anything(),
     );
 
     // file contents
     expect(httpService.get).toHaveBeenCalledWith(
-      `https://api.github.com/repos/${process.env['GITHUBUSERNAME']}/${appid}-config/git/blobs/development`,
+      `https://api.github.com/repos/${mockNodeEnvironmentVariables.GITHUBUSERNAME}/${appid}-config/git/blobs/development`,
       expect.anything(),
     );
 

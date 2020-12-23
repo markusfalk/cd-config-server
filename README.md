@@ -2,7 +2,7 @@
 
 # Continuous Delivery Configuration Server
 
-<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMGINFWVFQ7FX67NLYC744S3S" alt=""  style="display: block; margin: 50px auto;"/>
+<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMCE3F5XGN6QGWJCSVK75TS52" alt="" style="display: block; margin: 50px auto;"/>
 
 This server provides a configuration API to be used within Continuous Delivery environments.
 
@@ -19,7 +19,7 @@ This service allows for apps to be build once and then put through your continuo
 A continuous delivery pipeline usually has mutlipe environments in which the app is tested or reviewed.
 The configuration repository contains one file per stage/environment of your pipeline.
 
-These configuration files (*.json) contain all the values your app needs.
+These configuration files (\*.json) contain all the values your app needs.
 If a pipeline has the four stages: development (local), test, staging, production, then you would create the following four files:
 
 ```
@@ -29,6 +29,8 @@ staging.json
 production.json
 ```
 
+It currently supports Github and Gitlab as a source of your configuration files.
+
 ### Independent Lifecyles and Deployments
 
 To make applications and configurations truly independent we need to somehow tell the service which configuration release is compatible with what version of our applications.
@@ -37,7 +39,7 @@ For that reason each configuration file contains this one additional and obligat
 
 ```json
 {
-  "compatibleWithAppVersion": ">2.0.0",
+  "compatibleWithAppVersion": "^2.0.0"
 }
 ```
 
@@ -49,9 +51,15 @@ Here you can define a semantic version range that tells the configuration server
 
 The application id will be used to find the configuration repository by appending `-config`.
 
-| application id | configuration repositoy | GitHub url |
-|-|-|-|
-| YourApp | YourApp-config | https://github.com/markusfalk/yourapp-config |
+| application id | configuration repositoy | url of your repository                          |
+| -------------- | ----------------------- | ----------------------------------------------- |
+| YourApp        | YourApp-config          | https://github.com/yournamespace/yourapp-config |
+| Another        | Another-config          | https://gitlab.com/yournamespace/another-config |
+
+Examples
+
+- https://github.com/markusfalk/cd-config-server-test-config
+- https://gitlab.com/markus_falk/my-app-config
 
 #### Matching Configuration Key
 
@@ -59,36 +67,50 @@ To match application version and configuration you must provide the `compatibleW
 
 ```json
 {
-  "compatibleWithAppVersion": "~1.0.0",
+  "compatibleWithAppVersion": "^1.0.0"
 }
 ```
 
 ### Demo Configuration Repository
 
-* https://github.com/markusfalk/cd-config-server-test-config
+- https://github.com/markusfalk/cd-config-server-test-config
 
 ## Setup
 
 ### Prerequisits
 
-* Configuration files need (currently) to be hosted on GitHub
-* This server is provided as a docker image
-* Your applications need be versioned using semantic versioning
+- Configuration files need (currently) to be hosted on GitHub
+- This server is provided as a docker image
+- Your applications need be versioned using semantic versioning
 
 ### Options
 
 The server is provided as a docker image and can be started with the following options:
 
-| name | default | description |
-|-|-|-|
-| GITHUBUSERNAME* |  | used for authentication |
-| GITHUBPASSWORD* |  | used for authentication |
-| USERAGENT* |  | used for authentication |
-| HTTPPORT | 3000 | What port would you like docker to expose this service to |
-| CACHE_TTL | 300 | This service uses an in memory cache and this is how long it lives in seconds |
-| RATE_LIMIT_MS | 360000 | Rate limit time range in milliseconds |
-| RATE_LIMIT_MAX | 5000 | How many requests do you allow to this service per RATE_LIMIT_MS |
+#### Common
+
+| name           | default | description                                                                   |
+| -------------- | ------- | ----------------------------------------------------------------------------- |
+| CACHE_TTL      | 300     | This service uses an in memory cache and this is how long it lives in seconds |
+| GIT_SOURCE\*   |         | 'gitlab' \| 'github'                                                          |
+| HTTPPORT       | 3000    | What port would you like docker to expose this service to                     |
+| RATE_LIMIT_MAX | 5000    | How many requests do you allow to this service per RATE_LIMIT_MS              |
+| RATE_LIMIT_MS  | 360000  | Rate limit time range in milliseconds                                         |
+
+#### When using Github
+
+| name             | default | description             |
+| ---------------- | ------- | ----------------------- |
+| GITHUBPASSWORD\* |         | used for authentication |
+| GITHUBUSERNAME\* |         | used for authentication |
+| USERAGENT\*      |         | used for authentication |
+
+#### When using Gitlab
+
+| name             | default | description               |
+| ---------------- | ------- | ------------------------- |
+| GITLABUSERNAME\* |         | used to find your project |
 
 ## Changelog
 
-* https://github.com/markusfalk/cd-config-server/blob/main/CHANGELOG.md
+- https://github.com/markusfalk/cd-config-server/blob/main/CHANGELOG.md

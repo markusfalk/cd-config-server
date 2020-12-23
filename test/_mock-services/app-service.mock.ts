@@ -1,3 +1,3 @@
 import { AppService } from '../../src/app.service';
 
-export const appService: AppService = { getApiRoot: () => 'homepage' };
+export const mockAppService: AppService = { getApiRoot: () => 'homepage' };

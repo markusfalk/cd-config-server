@@ -3,10 +3,10 @@ import { of } from 'rxjs';
 
 import { HttpService } from '@nestjs/common';
 
-import { Trees } from '../../src/_interfaces/trees.interface';
-import { mockTreeDevelopment, mockTreeStaging } from '../_mock-services/mockTree';
+import { Trees } from '../../../src/_interfaces/trees.interface';
+import { mockTreeDevelopment, mockTreeStaging } from '../../_mock-services/mockTree';
 
-export function mockTreesRequest(httpService: HttpService) {
+export function mockTreesRequestGithub(httpService: HttpService) {
   const result: AxiosResponse<Trees> = {
     data: {
       sha: 'mocktrees',

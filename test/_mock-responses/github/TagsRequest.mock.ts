@@ -28,7 +28,10 @@ const responseWithTags = [
   },
 ];
 
-export function mockTagsResponse(httpService: HttpService, empty?: boolean) {
+export function mockTagsResponseGithub(
+  httpService: HttpService,
+  empty?: boolean,
+) {
   const result: AxiosResponse<Tag[]> = {
     data: empty ? responseWithoutTags : responseWithTags,
     status: 200,

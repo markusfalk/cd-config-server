@@ -5,7 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { HttpService, Injectable } from '@nestjs/common';
 
 import { Config } from '../_interfaces/config.interface';
-import { FileBlob } from '../_interfaces/file-blob.interface';
+import { FileBlobGithub } from '../_interfaces/file-blob.interface';
 import { TagCollection } from '../_interfaces/tag-collection.interface';
 import { Tag } from '../_interfaces/tag.interface';
 import { Tree } from '../_interfaces/tree.interface';
@@ -55,18 +55,13 @@ export class GithubService {
   private loadFileContent(hash: string, appid: string): Observable<Config> {
     const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
     return this.http
-      .get<FileBlob>(url, this.config)
+      .get<FileBlobGithub>(url, this.config)
       .pipe(
         switchMap((response) => of(JSON.parse(atob(response.data.content)))),
       );
   }
 
-  logRateLimit() {
-    return this.http.get('https://api.github.com/rate_limit', this.config);
-  }
-
-  getRemoteTags(repo: string): Observable<TagCollection[]> {
-
+  private getRemoteTags(repo: string): Observable<TagCollection[]> {
     const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
     return this.http.get<Tag[]>(url, this.config).pipe(
       switchMap((response) => {
@@ -86,7 +81,7 @@ export class GithubService {
     );
   }
 
-  getTrees(
+  private getTrees(
     tagCollections: TagCollection[],
     appid: string,
   ): Observable<Tree[][]> {
@@ -98,11 +93,13 @@ export class GithubService {
     return combineLatest([...allTrees]);
   }
 
-  findFileTreesFilteredByEnvironment(trees: Tree[][], environment: string) {
+  private findFileTreesFilteredByEnvironment(
+    trees: Tree[][],
+    environment: string,
+  ) {
     const allFiles: Tree[][] = [];
 
     trees.forEach((tree) => {
-
       const filtered = tree.filter((fileTree) => {
         return fileTree.path.includes(environment);
       });
@@ -115,12 +112,26 @@ export class GithubService {
     return of(allFiles);
   }
 
-  getFileContents(trees: Tree[][], appid: string) {
+  private getFileContents(trees: Tree[][], appid: string) {
     const allFiles: Observable<Config>[] = [];
     trees.forEach((tree) => {
       const sha: string = tree[0].sha;
       allFiles.push(this.loadFileContent(sha, appid));
     });
     return combineLatest([...allFiles]);
+  }
+
+  getConfigFromGithub(appid: string, appversion: string, environment: string) {
+    return this.getRemoteTags(appid).pipe(
+      // tap(console.log), // tags
+      switchMap((tagCollections) => this.getTrees(tagCollections, appid)),
+      // tap(console.log), // trees
+      switchMap((trees) =>
+        this.findFileTreesFilteredByEnvironment(trees, environment),
+      ),
+      // tap(console.log), // files by environment
+      switchMap((files) => this.getFileContents(files, appid)),
+      // tap(console.log),
+    );
   }
 }

@@ -1,4 +1,4 @@
-export interface FileBlob {
+export interface FileBlobGithub {
   sha: string;
   node_id: string;
   size: number;

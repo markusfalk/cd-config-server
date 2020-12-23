@@ -3,8 +3,8 @@ import { of } from 'rxjs';
 
 import { HttpService } from '@nestjs/common';
 
-import { Config } from '../../src/_interfaces/config.interface';
-import { FileBlob } from '../../src/_interfaces/file-blob.interface';
+import { Config } from '../../../src/_interfaces/config.interface';
+import { FileBlobGithub } from '../../../src/_interfaces/file-blob.interface';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const btoa = require('btoa');
@@ -13,12 +13,11 @@ const mockBlobContent: Config = {
   content: 'staging',
 };
 
-export function mockFileContentRequest(
+export function mockFileContentRequestGithub(
   httpService: HttpService,
   version?: string,
   environment?: string,
 ) {
-
   if (version) {
     mockBlobContent.compatibleWithAppVersion = version;
   }
@@ -27,7 +26,7 @@ export function mockFileContentRequest(
     mockBlobContent.content = environment;
   }
 
-  const result: AxiosResponse<FileBlob> = {
+  const result: AxiosResponse<FileBlobGithub> = {
     data: {
       sha: '',
       node_id: '',

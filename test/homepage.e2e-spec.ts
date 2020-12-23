@@ -5,7 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AppModule } from '../src/app.module';
 import { AppService } from '../src/app.service';
-import { appService as mockAppService } from './_mock-services/app-service.mock';
+import { mockAppService } from './_mock-services/app-service.mock';
 
 describe('Homepage Endpoints (e2e)', () => {
   let app: INestApplication;

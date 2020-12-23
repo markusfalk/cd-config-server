@@ -1,5 +1,3 @@
-<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-logo.svg?token=AAKKHMDUWRBBM3YPS5BDWMK744S2A" alt="" width="200" height="200" style="display: block; margin: 50px auto;"/>
-
 # Continuous Delivery Configuration Server
 
 <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMCE3F5XGN6QGWJCSVK75TS52" alt="" style="display: block; margin: 50px auto;"/>

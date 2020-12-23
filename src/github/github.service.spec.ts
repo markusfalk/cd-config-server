@@ -1,6 +1,4 @@
-
-
-import { HttpModule, HttpService } from '@nestjs/common';
+import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../_services/configuration/configuration.service';
@@ -12,7 +10,7 @@ export interface RateLimit {
 
 describe('GithubService', () => {
   let service: GithubService;
-  let http: HttpService;
+  // let http: HttpService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -21,7 +19,7 @@ describe('GithubService', () => {
     }).compile();
 
     service = module.get<GithubService>(GithubService);
-    http = module.get<HttpService>(HttpService);
+    // http = module.get<HttpService>(HttpService);
   });
 
   it('should be defined', () => {

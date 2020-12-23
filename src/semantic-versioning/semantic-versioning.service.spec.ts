@@ -1,10 +1,8 @@
+import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Config } from '../_interfaces/config.interface';
-import {
-  errorsMessages,
-  SemanticVersioningService,
-} from './semantic-versioning.service';
+import { errorsMessages, SemanticVersioningService } from './semantic-versioning.service';
 
 describe('SemanticVersioningService', () => {
   let service: SemanticVersioningService;
@@ -46,8 +44,12 @@ describe('SemanticVersioningService', () => {
 
     service.findMatchingFile(configs, '1.0.0').subscribe(
       () => console.log(),
-      (error) => {
-        expect(error).toBe(errorsMessages.wrongKey);
+      (error: HttpException) => {
+        expect(error.getStatus()).toEqual(406);
+        expect(error.getResponse()).toEqual({
+          error: errorsMessages.wrongKey,
+          status: 406,
+        });
       },
     );
   });
@@ -57,8 +59,12 @@ describe('SemanticVersioningService', () => {
 
     service.findMatchingFile(configs, '2.0.0').subscribe(
       () => console.log(),
-      (error) => {
-        expect(error).toBe(errorsMessages.noConfig + ` 2.0.0`);
+      (error: HttpException) => {
+        expect(error.getStatus()).toEqual(404);
+        expect(error.getResponse()).toEqual({
+          error: `${errorsMessages.noConfig} 2.0.0`,
+          status: 404,
+        });
       },
     );
   });

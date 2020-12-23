@@ -1,4 +1,5 @@
-import { switchMap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { Injectable } from '@nestjs/common';
 
@@ -41,15 +42,26 @@ export class AppConfigService {
         switchMap((configFiles) =>
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
+        catchError((err) => {
+          return throwError(err);
+        }),
       );
   }
 
   getConfig(appid: string, appversion: string, environment: string) {
     const source = this.configurationService.getEnvironmentConfig('GIT_SOURCE');
     if (source === 'github') {
-      return this.getGithubConfig(appid, appversion, environment);
+      return this.getGithubConfig(appid, appversion, environment).pipe(
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
     } else if (source === 'gitlab') {
-      return this.getGitlabConfig(appid, appversion, environment);
+      return this.getGitlabConfig(appid, appversion, environment).pipe(
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
     }
   }
 }

@@ -38,7 +38,7 @@ describe('SemanticVersioningService', () => {
     });
   });
 
-  it('should check config attribute', () => {
+  it('should return error on wrong config key', () => {
     const configs: any[] = [{ wrongKey: '1.0.0' }];
 
     service.findMatchingFile(configs, '1.0.0').subscribe(
@@ -115,9 +115,14 @@ describe('SemanticVersioningService', () => {
       { compatibleWithAppVersion: '>2.0.0' },
     ];
 
-    service.findMatchingFile(configs, '1.0.0').subscribe((response) => {
-      expect(response).toEqual(configs[3]);
-    });
+    service.findMatchingFile(configs, '1.1.0').subscribe(
+      (response) => {
+        expect(response).toEqual(configs[0]);
+      },
+      (err) => {
+        console.log(err);
+      },
+    );
   });
 
   it('should match lower than', () => {
@@ -130,7 +135,7 @@ describe('SemanticVersioningService', () => {
     ];
 
     service.findMatchingFile(configs, '1.0.0').subscribe((response) => {
-      expect(response).toEqual(configs[3]);
+      expect(response).toEqual(configs[4]);
     });
   });
 
@@ -144,7 +149,7 @@ describe('SemanticVersioningService', () => {
     ];
 
     service.findMatchingFile(configs, '1.0.0').subscribe((response) => {
-      expect(response).toEqual(configs[3]);
+      expect(response).toEqual(configs[4]);
     });
   });
 

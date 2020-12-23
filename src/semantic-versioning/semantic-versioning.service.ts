@@ -4,8 +4,6 @@ import { Config } from 'src/_interfaces/config.interface';
 
 import { Injectable } from '@nestjs/common';
 
-
-
 // export interface SemanticError {
 //   appversion: string;
 //   code: number;
@@ -30,17 +28,16 @@ export class SemanticVersioningService {
    * then returns the highest matching config.
    */
   findMatchingFile(configFiles: Config[], appVersion: string) {
-    let error = false;
-
+    let attributeError = false;
     const matched = configFiles.filter((file) => {
       if (file.compatibleWithAppVersion) {
         return satisfies(appVersion, file.compatibleWithAppVersion);
       } else {
-        error = true;
+        attributeError = true;
       }
     });
 
-    if (error) {
+    if (attributeError) {
       return throwError(errorsMessages.wrongKey);
     }
 
@@ -55,7 +52,6 @@ export class SemanticVersioningService {
 
     // return last value in case more than one config matches the appversion
     const last = matched[matched.length - 1];
-
     if (last) {
       return of(last);
     } else {

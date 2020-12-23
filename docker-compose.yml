@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   configserver:
     container_name: cd-config-server
@@ -6,10 +6,11 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "${HTTPPORT}:3000"
+      - '${HTTPPORT}:3000'
     environment:
-      - USERAGENT=${USERAGENT}
-      - GITHUBUSERNAME=${GITHUBUSERNAME}
       - CACHE_TTL=${CACHE_TTL}
-      - RATE_LIMIT_MS=${RATE_LIMIT_MS}
+      - GIT_SOURCE=${GIT_SOURCE}
+      - GITHUBUSERNAME=${GITHUBUSERNAME}
       - RATE_LIMIT_MAX=${RATE_LIMIT_MAX}
+      - RATE_LIMIT_MS=${RATE_LIMIT_MS}
+      - USERAGENT=${USERAGENT}

@@ -48,6 +48,17 @@ export class GitlabService {
   private repoId: string;
 
   private getProjectId(username: string, appid: string): Observable<string> {
+    if (!username) {
+      const err = new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: `GITLABUSERNAME not configured`,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+      return throwError(err);
+    }
+
     const url = `https://gitlab.com/api/v4/users/${username}/projects`;
 
     return this.http.get<GitlabProject[]>(url).pipe(
@@ -64,7 +75,7 @@ export class GitlabService {
           const err = new HttpException(
             {
               status: HttpStatus.NOT_FOUND,
-              error: `Could not find project '${appid}' for configured user.`,
+              error: `Could not find '${appid}-config' repository for configured user.`,
             },
             HttpStatus.NOT_FOUND,
           );

@@ -1,7 +1,7 @@
 import { throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { ConfigurationService } from '../_services/configuration/configuration.service';
 import { GithubService } from '../github/github.service';
@@ -50,6 +50,17 @@ export class AppConfigService {
 
   getConfig(appid: string, appversion: string, environment: string) {
     const source = this.configurationService.getEnvironmentConfig('GIT_SOURCE');
+    if (!source) {
+      const err = new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: `GIT_SOURCE not configured`,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+      return throwError(err);
+    }
+
     if (source === 'github') {
       return this.getGithubConfig(appid, appversion, environment).pipe(
         catchError((err) => {

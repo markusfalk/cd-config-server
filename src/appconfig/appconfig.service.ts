@@ -1,61 +1,55 @@
-import { of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { satisfies } from 'semver';
 
 import { Injectable } from '@nestjs/common';
 
-import { Config } from '../_interfaces/config.interface';
+import { ConfigurationService } from '../_services/configuration/configuration.service';
 import { GithubService } from '../github/github.service';
+import { GitlabService } from '../gitlab/gitlab.service';
+import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
 
 @Injectable()
 export class AppConfigService {
-  constructor(private readonly githubService: GithubService) {}
+  constructor(
+    private readonly githubService: GithubService,
+    private readonly configurationService: ConfigurationService,
+    private readonly gitlabService: GitlabService,
+    private readonly semverService: SemanticVersioningService,
+  ) {}
 
-  private findMatchingFile(configFiles: Config[], appVersion: string) {
-    const matched = configFiles.filter((file) => {
-      if (file.compatibleWithAppVersion) {
-        return satisfies(appVersion, file.compatibleWithAppVersion);
-      } else {
-        return throwError(
-          `The config file must include the key  'compatibleWithAppVersion'`,
-        );
-      }
-    });
-    const last = matched[matched.length - 1];
-    if (last) {
-      return of(last);
-    } else {
-      return throwError(`No config found matching ${appVersion}`);
-    }
+  private getGithubConfig(
+    appid: string,
+    appversion: string,
+    environment: string,
+  ) {
+    return this.githubService
+      .getConfigFromGithub(appid, appversion, environment)
+      .pipe(
+        switchMap((configFiles) =>
+          this.semverService.findMatchingFile(configFiles, appversion),
+        ),
+      );
   }
 
-  /*
-   * ☑ load all tags from github
-   * ☑ use hashes from tags to load trees
-   * ☑ load file content from tree entries
-   * ☑ find environment matching config file for each tag
-   * ☑ find config matching app version
-   */
-  getApi(appid: string, appversion: string, environment: string) {
-    return this.githubService.getRemoteTags(appid).pipe(
-      // tap(console.log), // tags
-      switchMap((tagCollections) =>
-        this.githubService.getTrees(tagCollections, appid),
-      ),
-      // tap(console.log), // trees
-      switchMap((trees) =>
-        this.githubService.findFileTreesFilteredByEnvironment(
-          trees,
-          environment,
+  private getGitlabConfig(
+    appid: string,
+    appversion: string,
+    environment: string,
+  ) {
+    return this.gitlabService
+      .getConfigFromGitLab(appid, appversion, environment)
+      .pipe(
+        switchMap((configFiles) =>
+          this.semverService.findMatchingFile(configFiles, appversion),
         ),
-      ),
-      // tap(console.log), // files by environment
-      switchMap((files) => this.githubService.getFileContents(files, appid)),
-      // tap(console.log),
-      switchMap((configFiles) =>
-        this.findMatchingFile(configFiles, appversion),
-      ),
-      // tap(console.log),
-    );
+      );
+  }
+
+  getConfig(appid: string, appversion: string, environment: string) {
+    const source = this.configurationService.getEnvironmentConfig('GIT_SOURCE');
+    if (source === 'github') {
+      return this.getGithubConfig(appid, appversion, environment);
+    } else if (source === 'gitlab') {
+      return this.getGitlabConfig(appid, appversion, environment);
+    }
   }
 }

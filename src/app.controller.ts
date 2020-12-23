@@ -1,14 +1,7 @@
 import { catchError } from 'rxjs/operators';
 
 import {
-  CacheInterceptor,
-  CacheTTL,
-  Controller,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  UseInterceptors,
+  CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
 } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
@@ -51,13 +44,7 @@ export class AppController {
   ) {
     return this.appConfigService.getConfig(appid, appversion, environment).pipe(
       catchError((err) => {
-        throw new HttpException(
-          {
-            status: HttpStatus.NOT_FOUND,
-            error: err,
-          },
-          HttpStatus.NOT_FOUND,
-        );
+        throw err;
       }),
     );
   }

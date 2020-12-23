@@ -1,8 +1,8 @@
 import { AxiosRequestConfig } from 'axios';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../_interfaces/config.interface';
 import { ConfigurationService } from '../_services/configuration/configuration.service';
@@ -61,7 +61,14 @@ export class GitlabService {
         if (filtered.length) {
           return of(filtered[0]);
         } else {
-          return throwError(`No projects found for user ${username}`);
+          const err = new HttpException(
+            {
+              status: HttpStatus.NOT_FOUND,
+              error: `Could not find project '${appid}' for configured user.`,
+            },
+            HttpStatus.NOT_FOUND,
+          );
+          return throwError(err);
         }
       }),
       switchMap((project) => {
@@ -116,6 +123,7 @@ export class GitlabService {
 
   private filterTreesByEnvironment(environment: string, trees: ExtendedTree[]) {
     const allFiles: ExtendedTree[] = [];
+    let error = false;
 
     trees.forEach((tree) => {
       const filtered = tree.data.filter((fileTree) => {
@@ -127,10 +135,23 @@ export class GitlabService {
           data: filtered,
           ref: tree.ref,
         });
+      } else {
+        error = true;
       }
     });
 
-    return of(allFiles);
+    if (error) {
+      const err = new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: `Could not find ${environment}.json`,
+        },
+        HttpStatus.NOT_FOUND,
+      );
+      return throwError(err);
+    } else {
+      return of(allFiles);
+    }
   }
 
   private loadFileContent(path: string, ref: string): Observable<Config> {
@@ -182,6 +203,9 @@ export class GitlabService {
         return this.getFileContents(trees);
       }),
       // tap(console.log),
+      catchError((err) => {
+        return throwError(err);
+      }),
     );
   }
 }

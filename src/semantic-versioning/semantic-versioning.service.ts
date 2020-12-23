@@ -2,23 +2,11 @@ import { of, throwError } from 'rxjs';
 import { satisfies } from 'semver';
 import { Config } from 'src/_interfaces/config.interface';
 
-import { Injectable } from '@nestjs/common';
-
-// export interface SemanticError {
-//   appversion: string;
-//   code: number;
-//   message: string;
-// }
-
-// const wrongKeyError: SemanticError = {
-//   appversion: ${appVersion},
-//   code: 400,
-//   message:
-// }
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 export const enum errorsMessages {
   wrongKey = `The config file must include the key 'compatibleWithAppVersion'`,
-  noConfig = `No config found matching`,
+  noConfig = `Could not find config file that is compatible with app version`,
 }
 
 @Injectable()
@@ -38,7 +26,14 @@ export class SemanticVersioningService {
     });
 
     if (attributeError) {
-      return throwError(errorsMessages.wrongKey);
+      const err = new HttpException(
+        {
+          status: HttpStatus.NOT_ACCEPTABLE,
+          error: errorsMessages.wrongKey,
+        },
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+      return throwError(err);
     }
 
     // need to sort to use last entry as highest matching version
@@ -55,7 +50,14 @@ export class SemanticVersioningService {
     if (last) {
       return of(last);
     } else {
-      return throwError(errorsMessages.noConfig + ` ${appVersion}`);
+      const err = new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: errorsMessages.noConfig + ` ${appVersion}`,
+        },
+        HttpStatus.NOT_FOUND,
+      );
+      return throwError(err);
     }
   }
 }

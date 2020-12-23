@@ -2,7 +2,7 @@ import { atob } from 'atob';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { HttpService, Injectable } from '@nestjs/common';
+import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../_interfaces/config.interface';
 import { FileBlobGithub } from '../_interfaces/file-blob.interface';
@@ -72,10 +72,19 @@ export class GithubService {
           obj[ref] = sha;
           return obj;
         });
+
         if (tags.length) {
           return of(tags);
         } else {
-          return throwError(`No tags found in repo ${repo}`);
+          const err = new HttpException(
+            {
+              status: HttpStatus.NOT_FOUND,
+              error: `No tags found in repo ${repo}`,
+            },
+            HttpStatus.NOT_FOUND,
+          );
+
+          return throwError(err);
         }
       }),
     );

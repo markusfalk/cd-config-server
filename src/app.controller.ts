@@ -42,7 +42,7 @@ export class AppController {
     @Param('appversion') appversion: string,
     @Param('environment') environment: string,
   ) {
-    return this.appConfigService.getApi(appid, appversion, environment).pipe(
+    return this.appConfigService.getConfig(appid, appversion, environment).pipe(
       catchError((err) => {
         throw new HttpException(
           {

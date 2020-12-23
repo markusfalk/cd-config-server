@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.0.2 (2020-12-23)
+
+
+### Bug Fixes
+
+* throw error on missing config values ([e5fa8f6](https://github.com/markusfalk/cd-config-server/commit/e5fa8f607df7a7b0a5200757ea1e964a31d2036f))
+
 ## 1.0.1 (2020-12-20)
 
 * update documentation

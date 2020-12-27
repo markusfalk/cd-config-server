@@ -8,10 +8,10 @@ services:
     ports:
       - '${HTTPPORT}:3000'
     environment:
-      - CACHE_TTL=${CACHE_TTL}
+      # - CACHE_TTL=${CACHE_TTL}
       - GIT_SOURCE=${GIT_SOURCE}
       - GITHUBUSERNAME=${GITHUBUSERNAME}
       - GITLABUSERNAME=${GITLABUSERNAME}
-      - RATE_LIMIT_MAX=${RATE_LIMIT_MAX}
-      - RATE_LIMIT_MS=${RATE_LIMIT_MS}
+      # - RATE_LIMIT_MAX=${RATE_LIMIT_MAX}
+      # - RATE_LIMIT_MS=${RATE_LIMIT_MS}
       - USERAGENT=${USERAGENT}

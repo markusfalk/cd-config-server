@@ -44,7 +44,10 @@ export class GitlabService {
     'GITLABUSERNAME',
   );
 
-  private gitlabBaseUrl = 'https://gitlab.com/api/v4';
+  private gitlabBaseUrl =
+    this.configService.getEnvironmentConfig('GITLAB_BASE_URL') ||
+    'https://gitlab.com/api/v4';
+
   private repoId: string;
 
   private getProjectId(username: string, appid: string): Observable<string> {
@@ -59,7 +62,7 @@ export class GitlabService {
       return throwError(err);
     }
 
-    const url = `https://gitlab.com/api/v4/users/${username}/projects`;
+    const url = `${this.gitlabBaseUrl}/users/${username}/projects`;
 
     return this.http.get<GitlabProject[]>(url).pipe(
       switchMap((response) => {
@@ -100,8 +103,6 @@ export class GitlabService {
   }
 
   private loadTreeFromTag(tag: GitlabTag): Observable<ExtendedTree> {
-    // https://gitlab.com/api/v4/projects/23240716/repository/tree?ref=9507479e
-
     const url = `${this.gitlabBaseUrl}/projects/${this.repoId}/repository/tree`;
     const ref = tag.commit.id;
 

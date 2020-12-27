@@ -14,9 +14,11 @@ import { mockConfigurationService } from './mockConfigurationService';
 const mockNodeEnvironmentVariables = {
   GIT_SOURCE: 'gitlab',
   GITLABUSERNAME: 'markus_falk',
+  GITLAB_BASE_URL: 'https://gitlab.com/api/v4',
 };
 
-const gitlabBaseUrl = 'https://gitlab.com/api/v4';
+const gitlabBaseUrlExpected =
+  mockNodeEnvironmentVariables.GITLAB_BASE_URL || 'https://gitlab.com/api/v4';
 
 describe('Config Endpoints (e2e)', () => {
   let app: INestApplication;
@@ -61,24 +63,24 @@ describe('Config Endpoints (e2e)', () => {
 
     // project
     expect(httpService.get).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/users/${mockNodeEnvironmentVariables.GITLABUSERNAME}/projects`,
+      `${gitlabBaseUrlExpected}/users/${mockNodeEnvironmentVariables.GITLABUSERNAME}/projects`,
     );
 
     // tags
     expect(httpService.get).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/projects/1/repository/tags`,
+      `${gitlabBaseUrlExpected}/projects/1/repository/tags`,
     );
 
     // trees
     expect(httpService.get).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/projects/1/repository/tree`,
+      `${gitlabBaseUrlExpected}/projects/1/repository/tree`,
       {
         params: { ref: 'refone' },
       },
     );
 
     expect(httpService.get).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/projects/1/repository/tree`,
+      `${gitlabBaseUrlExpected}/projects/1/repository/tree`,
       {
         params: { ref: 'reftwo' },
       },
@@ -88,14 +90,14 @@ describe('Config Endpoints (e2e)', () => {
     expect(
       httpService.get,
     ).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/projects/1/repository/files/${environment}.json/raw`,
+      `${gitlabBaseUrlExpected}/projects/1/repository/files/${environment}.json/raw`,
       { params: { ref: 'refone' } },
     );
 
     expect(
       httpService.get,
     ).toHaveBeenCalledWith(
-      `${gitlabBaseUrl}/projects/1/repository/files/${environment}.json/raw`,
+      `${gitlabBaseUrlExpected}/projects/1/repository/files/${environment}.json/raw`,
       { params: { ref: 'reftwo' } },
     );
 

@@ -105,9 +105,10 @@ The server is provided as a docker image and can be started with the following o
 
 #### When using Gitlab
 
-| name             | default | description               |
-| ---------------- | ------- | ------------------------- |
-| GITLABUSERNAME\* |         | used to find your project |
+| name             | default                   | description                     |
+| ---------------- | ------------------------- | ------------------------------- |
+| GITLABUSERNAME\* |                           | used to find your project       |
+| GITLAB_BASE_URL  | https://gitlab.com/api/v4 | address your self hosted gitlab |
 
 ## Changelog
 

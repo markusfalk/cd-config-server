@@ -41,19 +41,21 @@ export class GithubService {
     },
   };
 
+  private githubBaseUrl = 'https://api.github.com';
+
   private loadTreeFromHash(
     tagCollection: TagCollection,
     appid: string,
   ): Observable<Tree[]> {
     const collection = Object.values(tagCollection)[0];
-    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/trees/${collection}`;
+    const url = `${this.githubBaseUrl}/repos/${this.githubUserName}/${appid}-config/git/trees/${collection}`;
     return this.http
       .get<Trees>(url, this.config)
       .pipe(switchMap((response) => of(response.data.tree)));
   }
 
   private loadFileContent(hash: string, appid: string): Observable<Config> {
-    const url = `https://api.github.com/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
+    const url = `${this.githubBaseUrl}/repos/${this.githubUserName}/${appid}-config/git/blobs/${hash}`;
     return this.http
       .get<FileBlobGithub>(url, this.config)
       .pipe(
@@ -62,7 +64,7 @@ export class GithubService {
   }
 
   private getRemoteTags(repo: string): Observable<TagCollection[]> {
-    const url = `https://api.github.com/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
+    const url = `${this.githubBaseUrl}/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
     return this.http.get<Tag[]>(url, this.config).pipe(
       switchMap((response) => {
         const tags = response.data.map((tag: Tag) => {

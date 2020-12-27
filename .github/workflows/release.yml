@@ -1,7 +1,6 @@
 name: Release
 
 on:
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
@@ -14,7 +13,6 @@ on:
         required: false
 
 jobs:
-
   release:
     runs-on: ubuntu-latest
 
@@ -68,10 +66,9 @@ jobs:
             markusfalk/cd-config-server:latest
             markusfalk/cd-config-server:${{ env.PACKAGE_VERSION }}
 
-      # - name: update Readme on dockerhub
-      #   uses: peter-evans/dockerhub-description@v2.4.1
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
-      #     repository: markusfalk/cd-config-server
-
+      - name: update Readme on dockerhub
+        uses: peter-evans/dockerhub-description@v2.4.1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
+          repository: markusfalk/cd-config-server

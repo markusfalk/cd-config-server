@@ -1,6 +1,6 @@
 # Continuous Delivery Configuration Server
 
-<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMCE3F5XGN6QGWJCSVK75TS52" alt="" style="display: block; margin: 50px auto;"/>
+<img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/_assets/img/cd-config-server-flow.svg?token=AAKKHMFL3CFGKOX7A4DDZIC76L5IQ" alt="" style="display: block; margin: 50px auto;"/>
 
 This server provides a configuration API to be used within Continuous Delivery environments.
 
@@ -109,6 +109,10 @@ The server is provided as a docker image and can be started with the following o
 | ---------------- | ------------------------- | ------------------------------- |
 | GITLABUSERNAME\* |                           | used to find your project       |
 | GITLAB_BASE_URL  | https://gitlab.com/api/v4 | address your self hosted gitlab |
+
+## Issues
+
+- https://github.com/markusfalk/cd-config-server/issues
 
 ## Changelog
 

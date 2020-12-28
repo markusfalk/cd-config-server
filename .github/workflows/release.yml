@@ -66,9 +66,4 @@ jobs:
             markusfalk/cd-config-server:latest
             markusfalk/cd-config-server:${{ env.PACKAGE_VERSION }}
 
-      - name: update Readme on dockerhub
-        uses: peter-evans/dockerhub-description@v2.4.1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
-          repository: markusfalk/cd-config-server
+     

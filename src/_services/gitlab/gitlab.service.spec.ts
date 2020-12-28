@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ConfigurationService } from '../_services/configuration/configuration.service';
+import { ConfigurationService } from '../configuration/configuration.service';
 import { GitlabService } from './gitlab.service';
 
 describe('GitlabService', () => {

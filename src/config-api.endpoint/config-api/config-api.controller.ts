@@ -5,23 +5,12 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
-import { AppService } from './app.service';
-import { AppConfigService } from './appconfig/appconfig.service';
+import { AppConfigService } from '../../_services/appconfig/appconfig.service';
 
 @Controller()
 @UseInterceptors(CacheInterceptor)
-export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly appConfigService: AppConfigService,
-  ) {}
-
-  @Get()
-  @ApiOperation({ description: 'Project Homepage.' })
-  getApiRoot(): string {
-    return this.appService.getApiRoot();
-  }
-
+export class ConfigApiController {
+  constructor(private readonly appConfigService: AppConfigService) {}
   @Get('/:appid/:appversion/:environment')
   @CacheTTL(parseFloat(process.env['CACHE_TTL']) || 300)
   @ApiOperation({ description: 'Load the config file from your repo.' })

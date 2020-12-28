@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { HttpService } from '@nestjs/common';
 
-import { GitlabTag } from '../../../src/gitlab/gitlab.service';
+import { GitlabTag } from '../../../src/_services/gitlab/gitlab.service';
 
 const responseWithoutTags: GitlabTag[] = [];
 const responseWithTags: GitlabTag[] = [

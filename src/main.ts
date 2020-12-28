@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { version } from './_services/configuration/version.json';
-import { AppModule } from './app.module';
+import { AppModule } from './app.endpoint/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,7 +23,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   // Rate Limit
-  // TODO: get rate limit from .env
   app.use(
     rateLimit({
       windowMs: parseFloat(process.env['RATE_LIMIT_MS']) || 360000,

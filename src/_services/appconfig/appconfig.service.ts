@@ -3,7 +3,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
-import { ConfigurationService } from '../_services/configuration/configuration.service';
+import { ConfigurationService } from '../configuration/configuration.service';
 import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
@@ -11,8 +11,8 @@ import { SemanticVersioningService } from '../semantic-versioning/semantic-versi
 @Injectable()
 export class AppConfigService {
   constructor(
-    private readonly githubService: GithubService,
     private readonly configurationService: ConfigurationService,
+    private readonly githubService: GithubService,
     private readonly gitlabService: GitlabService,
     private readonly semverService: SemanticVersioningService,
   ) {}

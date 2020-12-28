@@ -4,8 +4,8 @@ import { catchError, switchMap } from 'rxjs/operators';
 
 import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
-import { Config } from '../_interfaces/config.interface';
-import { ConfigurationService } from '../_services/configuration/configuration.service';
+import { Config } from '../../_interfaces/config.interface';
+import { ConfigurationService } from '../configuration/configuration.service';
 
 export interface GitlabProject {
   id: number;

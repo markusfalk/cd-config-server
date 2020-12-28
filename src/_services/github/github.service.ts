@@ -4,13 +4,13 @@ import { switchMap } from 'rxjs/operators';
 
 import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
-import { Config } from '../_interfaces/config.interface';
-import { FileBlobGithub } from '../_interfaces/file-blob.interface';
-import { TagCollection } from '../_interfaces/tag-collection.interface';
-import { Tag } from '../_interfaces/tag.interface';
-import { Tree } from '../_interfaces/tree.interface';
-import { Trees } from '../_interfaces/trees.interface';
-import { ConfigurationService } from '../_services/configuration/configuration.service';
+import { Config } from '../../_interfaces/config.interface';
+import { FileBlobGithub } from '../../_interfaces/file-blob.interface';
+import { TagCollection } from '../../_interfaces/tag-collection.interface';
+import { Tag } from '../../_interfaces/tag.interface';
+import { Tree } from '../../_interfaces/tree.interface';
+import { Trees } from '../../_interfaces/trees.interface';
+import { ConfigurationService } from '../configuration/configuration.service';
 
 @Injectable()
 export class GithubService {

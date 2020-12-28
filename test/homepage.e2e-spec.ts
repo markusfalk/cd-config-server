@@ -3,8 +3,8 @@ import * as request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AppModule } from '../src/app.module';
-import { AppService } from '../src/app.service';
+import { AppService } from '../src/_services/app/app.service';
+import { AppModule } from '../src/app.endpoint/app.module';
 import { mockAppService } from './_mock-services/app-service.mock';
 
 describe('Homepage Endpoints (e2e)', () => {

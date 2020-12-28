@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ConfigurationService } from '../_services/configuration/configuration.service';
+import { ConfigurationService } from '../configuration/configuration.service';
 import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';

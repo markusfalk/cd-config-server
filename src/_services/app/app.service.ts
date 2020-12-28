@@ -69,11 +69,11 @@ export class AppService {
         <body>
             <main>
 
-                <img width="200" height="200" src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMFXCGE4ZRRNH2P5S4S74ZOFY" alt="" />
+                <img width="200" height="200" src="https://raw.githubusercontent.com/markusfalk/markus-falk.com/master/img/cd-config-server-logo.svg?token=AAKKHMGVBQMQETYEBOUZLPC76IXE2" alt="" />
 
                 <h1>Continuous Delivery Configuration Server</h1>
 
-                <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMDEMXHF36D2FYULW2275CIJ4" alt="" width="1024" height="512" />
+                <img src="https://raw.githubusercontent.com/markusfalk/cd-config-server/main/src/assets/img/cd-config-server-flow.svg?token=AAKKHMCE3F5XGN6QGWJCSVK75TS52" alt="" width="1024" height="512" />
 
                 <h2>Documentation</h2>
                 <ul>

@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { HttpService } from '@nestjs/common';
 
-import { GitlabProject } from '../../../src/gitlab/gitlab.service';
+import { GitlabProject } from '../../../src/_services/gitlab/gitlab.service';
 
 export function mockProjectsRequestGitlab(httpService: HttpService) {
   const result: AxiosResponse<GitlabProject[]> = {

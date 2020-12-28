@@ -28,3 +28,14 @@ jobs:
     # Runs a single command using the runners shell
     - name: list with options
       run: ls ${{ github.event.inputs.options }}
+    
+    
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+
+    - name: update Readme on dockerhub
+      uses: peter-evans/dockerhub-description@v2.4.1
+      with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESSTOKEN }}
+          repository: markusfalk/cd-config-server

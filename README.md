@@ -77,7 +77,7 @@ To match application version and configuration you must provide the `compatibleW
 
 ### Prerequisits
 
-- Configuration files need (currently) to be hosted on GitHub
+- Configuration files hosted on github or gitlab (including self hosted)
 - This server is provided as a docker image
 - Your applications need be versioned using semantic versioning
 

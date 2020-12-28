@@ -2,7 +2,12 @@ import { atob } from 'atob';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { FileBlobGithub } from '../../_interfaces/file-blob.interface';

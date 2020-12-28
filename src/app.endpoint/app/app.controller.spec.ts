@@ -5,9 +5,7 @@ import { AppConfigService } from '../../_services/appconfig/appconfig.service';
 import { ConfigurationService } from '../../_services/configuration/configuration.service';
 import { GithubService } from '../../_services/github/github.service';
 import { GitlabService } from '../../_services/gitlab/gitlab.service';
-import {
-  SemanticVersioningService
-} from '../../_services/semantic-versioning/semantic-versioning.service';
+import { SemanticVersioningService } from '../../_services/semantic-versioning/semantic-versioning.service';
 import { AppController } from './app.controller';
 
 describe('AppController', () => {

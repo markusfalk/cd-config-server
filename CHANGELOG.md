@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/markusfalk/cd-config-server/compare/v2.0.0...v2.1.0) (2020-12-28)
+
+
+### Features
+
+* make gitlab repo url configurable ([9864430](https://github.com/markusfalk/cd-config-server/commit/986443087618f79eab6058412319b9accda01c91))
+* rework homepage with link to issues ([fe1643a](https://github.com/markusfalk/cd-config-server/commit/fe1643a5a16a7365905bf4915f7ea89d02b94379))
+
 ## 2.0.0 (2020-12-23)
 
 ### BREAKING CHANGES

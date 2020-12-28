@@ -1,7 +1,6 @@
 import { CacheModule, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AppService } from '../../_services/app/app.service';
 import { AppConfigService } from '../../_services/appconfig/appconfig.service';
 import { ConfigurationService } from '../../_services/configuration/configuration.service';
 import { GithubService } from '../../_services/github/github.service';
@@ -19,9 +18,7 @@ describe('AppController', () => {
       imports: [HttpModule, CacheModule.register()],
       controllers: [AppController],
       providers: [
-        AppService,
         AppConfigService,
-        AppService,
         GithubService,
         SemanticVersioningService,
         GitlabService,
@@ -34,9 +31,9 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return', () => {
-      expect(appController.getApiRoot()).toContain(
-        'Continuous Delivery Configuration Server',
-      );
+      expect(appController.getApiRoot()).toEqual({
+        title: 'Continuous Delivery Configuration Server',
+      });
     });
   });
 });

@@ -1,13 +1,15 @@
 import * as rateLimit from 'express-rate-limit';
+import { join } from 'path';
 
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { version } from './_services/configuration/version.json';
 import { AppModule } from './app.endpoint/app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Swagger
   const options = new DocumentBuilder()
@@ -30,6 +32,12 @@ async function bootstrap() {
     }),
   );
 
+  // MVC
+  app.useStaticAssets(join(__dirname, '..', 'src', '_assets'));
+  app.setBaseViewsDir(join(__dirname, '..', 'src', '_views'));
+  app.setViewEngine('hbs');
+
   await app.listen(3000);
 }
+
 bootstrap();

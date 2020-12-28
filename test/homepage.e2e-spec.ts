@@ -1,29 +1,28 @@
+import { join } from 'path';
 import * as request from 'supertest';
 
-import { INestApplication } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AppService } from '../src/_services/app/app.service';
 import { AppModule } from '../src/app.endpoint/app.module';
-import { mockAppService } from './_mock-services/app-service.mock';
 
 describe('Homepage Endpoints (e2e)', () => {
-  let app: INestApplication;
+  let app: NestExpressApplication;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    })
-      .overrideProvider(AppService)
-      .useValue(mockAppService)
-      .compile();
+    }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useStaticAssets(join(__dirname, '..', 'src', '_assets'));
+    app.setBaseViewsDir(join(__dirname, '..', 'src', '_views'));
+    app.setViewEngine('hbs');
     await app.init();
   });
 
   it('/ (GET)', () => {
-    return request(app.getHttpServer()).get('/').expect(200).expect('homepage');
+    return request(app.getHttpServer()).get('/').expect(200);
   });
 
   afterAll(async () => {

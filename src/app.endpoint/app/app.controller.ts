@@ -1,22 +1,17 @@
-import { CacheInterceptor, Controller, Get, UseInterceptors } from '@nestjs/common';
+import { CacheInterceptor, Controller, Get, Render, UseInterceptors } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-
-import { AppService } from '../../_services/app/app.service';
 
 @Controller()
 @UseInterceptors(CacheInterceptor)
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
   @Get()
+  @Render('index')
   @ApiOperation({ description: 'Project Homepage.' })
-  getApiRoot(): string {
-    return this.appService.getApiRoot();
-  }
-
-  @Get('/foo')
-  @ApiOperation({ description: 'Project Homepage.' })
-  getFoo(): string {
-    return 'foo';
+  getApiRoot() {
+    return {
+      title: 'Continuous Delivery Configuration Server',
+    };
   }
 }

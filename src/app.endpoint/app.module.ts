@@ -1,7 +1,6 @@
 import { CacheModule, HttpModule, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
-import { AppService } from '../_services/app/app.service';
 import { AppConfigService } from '../_services/appconfig/appconfig.service';
 import { ConfigurationService } from '../_services/configuration/configuration.service';
 import { GithubService } from '../_services/github/github.service';
@@ -21,7 +20,6 @@ import { AppController } from './app/app.controller';
   ],
   controllers: [AppController],
   providers: [
-    AppService,
     AppConfigService,
     GithubService,
     ConfigurationService,

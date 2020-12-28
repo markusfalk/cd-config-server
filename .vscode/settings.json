@@ -68,5 +68,8 @@
       "name": "Vue Green",
       "value": "#42b883"
     }
-  ]
+],
+"files.exclude": {
+    "**/dist": true
+}
 }

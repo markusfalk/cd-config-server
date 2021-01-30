@@ -90,6 +90,7 @@ The server is provided as a docker image and can be started with the following o
 | name           | default | description                                                                   |
 | -------------- | ------- | ----------------------------------------------------------------------------- |
 | CACHE_TTL      | 300     | This service uses an in memory cache and this is how long it lives in seconds |
+| CORS_ORIGIN    | \*      | Setup which origins are allowed to access                                     |
 | GIT_SOURCE\*   |         | 'gitlab' \| 'github'                                                          |
 | HTTPPORT       | 3000    | What port would you like docker to expose this service to                     |
 | RATE_LIMIT_MAX | 5000    | How many requests do you allow to this service per RATE_LIMIT_MS              |
@@ -107,8 +108,8 @@ The server is provided as a docker image and can be started with the following o
 
 | name             | default                   | description                     |
 | ---------------- | ------------------------- | ------------------------------- |
-| GITLABUSERNAME\* |                           | used to find your project       |
 | GITLAB_BASE_URL  | https://gitlab.com/api/v4 | address your self hosted gitlab |
+| GITLABUSERNAME\* |                           | used to find your project       |
 
 ## Issues
 

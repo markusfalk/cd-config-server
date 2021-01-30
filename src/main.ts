@@ -1,6 +1,7 @@
 import * as rateLimit from 'express-rate-limit';
 import { join } from 'path';
 
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -37,6 +38,13 @@ async function bootstrap() {
   app.setBaseViewsDir(join(__dirname, '..', 'src', '_views'));
   app.setViewEngine('hbs');
 
+  // CORS
+  const corsOptions: CorsOptions = {
+    origin: process.env['CORS_ORIGIN'] || '*',
+  };
+  app.enableCors(corsOptions);
+
+  // start app
   await app.listen(3000);
 }
 

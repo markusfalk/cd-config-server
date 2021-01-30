@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/markusfalk/cd-config-server/compare/v2.1.0...v2.2.0) (2021-01-30)
+
+
+### Features
+
+* enable cors with origin config ([c86f026](https://github.com/markusfalk/cd-config-server/commit/c86f0265cd901f4665850fc12192ee5f306a07fa)), closes [#2](https://github.com/markusfalk/cd-config-server/issues/2)
+
 ## [2.1.0](https://github.com/markusfalk/cd-config-server/compare/v2.0.0...v2.1.0) (2020-12-28)
 
 

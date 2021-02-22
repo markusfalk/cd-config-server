@@ -48,7 +48,7 @@ describe('FileSystemService', () => {
     service
       .getConfigFromFileSystem(mockAppId, mockEnvironment)
       .subscribe((response) => {
-        expect(response).toEqual({ testconfig: true });
+        expect(response).toEqual([{ testconfig: true }]);
       });
   });
 });

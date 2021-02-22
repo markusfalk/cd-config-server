@@ -2,6 +2,7 @@ import fs = require('fs');
 import path = require('path');
 
 import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -52,9 +53,15 @@ describe('FileAccessService', () => {
         throw err;
       });
 
-      service.readDirectory(mockPath).subscribe((response) => {
-        expect(response).toReturnWith(mockServiceResponse);
-      });
+      service
+        .readDirectory(mockPath)
+        .pipe(
+          catchError((response) => {
+            expect(response).toBeInstanceOf(HttpException);
+            return of(response);
+          }),
+        )
+        .subscribe();
     });
   });
 

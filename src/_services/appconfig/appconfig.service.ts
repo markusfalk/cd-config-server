@@ -1,9 +1,11 @@
-import { throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
+import { Config } from '../../_interfaces/config.interface';
 import { ConfigurationService } from '../configuration/configuration.service';
+import { FileSystemService } from '../file-system/file-system.service';
 import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
@@ -15,6 +17,7 @@ export class AppConfigService {
     private readonly githubService: GithubService,
     private readonly gitlabService: GitlabService,
     private readonly semverService: SemanticVersioningService,
+    private readonly fileSystemService: FileSystemService,
   ) {}
 
   private getGithubConfig(
@@ -48,13 +51,34 @@ export class AppConfigService {
       );
   }
 
-  getConfig(appid: string, appversion: string, environment: string) {
-    const source = this.configurationService.getEnvironmentConfig('GIT_SOURCE');
+  private getFileSystemConfig(
+    appid: string,
+    appversion: string,
+    environment: string,
+  ) {
+    return this.fileSystemService
+      .getConfigFromFileSystem(appid, environment)
+      .pipe(
+        switchMap((configFiles) =>
+          this.semverService.findMatchingFile(configFiles, appversion),
+        ),
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
+  }
+
+  getConfig(
+    appid: string,
+    appversion: string,
+    environment: string,
+  ): Observable<Config> {
+    const source = this.configurationService.getEnvironmentConfig('SOURCE');
     if (!source) {
       const err = new HttpException(
         {
           status: HttpStatus.BAD_REQUEST,
-          error: `GIT_SOURCE not configured`,
+          error: `SOURCE not configured`,
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -69,6 +93,12 @@ export class AppConfigService {
       );
     } else if (source === 'gitlab') {
       return this.getGitlabConfig(appid, appversion, environment).pipe(
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
+    } else if (source === 'filesystem') {
+      return this.getFileSystemConfig(appid, appversion, environment).pipe(
         catchError((err) => {
           return throwError(err);
         }),

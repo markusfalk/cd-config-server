@@ -11,7 +11,7 @@ import { mockTreesRequestGithub } from './_mock-responses/github/TreesRequest.mo
 import { mockConfigurationService } from './mockConfigurationService';
 
 const mockNodeEnvironmentVariables = {
-  GIT_SOURCE: 'github',
+  SOURCE: 'github',
   GITHUBPASSWORD: 'abc',
   GITHUBUSERNAME: 'markusfalk',
   USERAGENT: 'markusfalk',

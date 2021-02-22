@@ -12,7 +12,7 @@ import { mockTreesResponseGitlab } from './_mock-responses/gitlab/TreesRequest.m
 import { mockConfigurationService } from './mockConfigurationService';
 
 const mockNodeEnvironmentVariables = {
-  GIT_SOURCE: 'gitlab',
+  SOURCE: 'gitlab',
   GITLABUSERNAME: 'markus_falk',
   GITLAB_BASE_URL: 'https://gitlab.com/api/v4',
 };

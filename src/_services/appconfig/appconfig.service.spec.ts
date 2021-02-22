@@ -2,6 +2,8 @@ import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../configuration/configuration.service';
+import { FileAccessService } from '../file-access/file-access.service';
+import { FileSystemService } from '../file-system/file-system.service';
 import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
@@ -19,6 +21,8 @@ describe('ConfigService', () => {
         ConfigurationService,
         GitlabService,
         SemanticVersioningService,
+        FileSystemService,
+        FileAccessService,
       ],
     }).compile();
 

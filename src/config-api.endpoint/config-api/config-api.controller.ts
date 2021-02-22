@@ -1,12 +1,7 @@
 import { catchError } from 'rxjs/operators';
 
 import {
-  CacheInterceptor,
-  CacheTTL,
-  Controller,
-  Get,
-  Param,
-  UseInterceptors,
+  CacheInterceptor, CacheTTL, Controller, Get, Param, UseInterceptors
 } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 

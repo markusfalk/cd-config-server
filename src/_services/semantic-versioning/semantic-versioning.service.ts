@@ -1,5 +1,5 @@
 import { of, throwError } from 'rxjs';
-import { satisfies } from 'semver';
+import { parse, satisfies } from 'semver';
 import { Config } from 'src/_interfaces/config.interface';
 
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
@@ -58,6 +58,15 @@ export class SemanticVersioningService {
         HttpStatus.NOT_FOUND,
       );
       return throwError(err);
+    }
+  }
+
+  parseSemanticVersion(version: string) {
+    try {
+      const check = parse(version);
+      return check;
+    } catch (error) {
+      console.error(error);
     }
   }
 }

@@ -1,7 +1,7 @@
 import fs = require('fs');
 import path = require('path');
 
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { HttpException } from '@nestjs/common';
@@ -46,7 +46,6 @@ describe('FileAccessService', () => {
 
     it('should throw error on empty directory', () => {
       const err = new Error('TEST: Error empty dir');
-      const mockServiceResponse: Observable<Partial<HttpException>> = of(err);
       const mockPath = 'testFolder';
 
       jest.spyOn<any, string>(fs, 'readdirSync').mockImplementationOnce(() => {

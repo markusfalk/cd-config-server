@@ -53,7 +53,7 @@ export class FileAccessService {
     } catch (error) {
       return this.createError({
         errorLog: error,
-        errorMessage: 'File unreadable.',
+        errorMessage: `File not found. Is ${fileName} the environment you are looking for?`,
         httpStatus: HttpStatus.NOT_FOUND,
       });
     }

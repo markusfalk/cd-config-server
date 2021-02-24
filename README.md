@@ -20,7 +20,7 @@ The configuration repository contains one file per stage/environment of your pip
 These configuration files (\*.json) contain all the values your app needs.
 If a pipeline has the four stages: development (local), test, staging, production, then you would create the following four files:
 
-```
+```txt
 development.json
 test.json
 staging.json
@@ -110,6 +110,14 @@ The server is provided as a docker image and can be started with the following o
 | ---------------- | ------------------------- | ------------------------------- |
 | GITLAB_BASE_URL  | https://gitlab.com/api/v4 | address your self hosted gitlab |
 | GITLABUSERNAME\* |                           | used to find your project       |
+
+##### When using the file system
+
+There is no additional configuration needed beyond the `SOURCE` but there needs to be a volume mounted to `/app/dist/configfiles`.
+
+## Migration Guide
+
+- https://github.com/markusfalk/cd-config-server/blob/main/MIGRATIONS.md
 
 ## Issues
 

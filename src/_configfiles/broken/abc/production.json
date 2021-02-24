@@ -1,0 +1,5 @@
+{
+  "compatibleWithAppVersion": "^1.0.0",
+  "testfile": "production broken",
+  "broken": true
+}

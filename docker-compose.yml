@@ -9,5 +9,6 @@ services:
       - '${HTTPPORT}:3000'
     environment:
       - SOURCE=${SOURCE}
+      - CACHE_TTL=${CACHE_TTL}
     volumes:
       - ${VOLUME}:/app/dist/configfiles

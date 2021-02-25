@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.0](https://github.com/markusfalk/cd-config-server/compare/v2.2.0...v3.0.0) (2021-02-25)
+
+
+### Features
+
+* enable configs to be read from file system ([5b8a1d5](https://github.com/markusfalk/cd-config-server/commit/5b8a1d57e66e23cf6940a4ddd96404c95441aa3e))
+
 ## [2.2.0](https://github.com/markusfalk/cd-config-server/compare/v2.1.0...v2.2.0) (2021-01-30)
 
 

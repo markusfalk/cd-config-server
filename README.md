@@ -117,11 +117,11 @@ There is no additional configuration needed beyond the `SOURCE` but there needs 
 
 When this is done you can move your configuration files into that volume with the following structure:
 
-````txt
+```txt
 - <appid> // identifies the app that is asking for configuration
   |- <configuration release version> // do not confuse with app version. This is the releases of your configuration
     |- <stage>.json // identifies the stage your app wants configuration for
-```compse
+```
 
 Example:
 
@@ -144,7 +144,7 @@ Example:
     |- development.json
     |- test.json
     |- production.json
-````
+```
 
 ## Caveats
 

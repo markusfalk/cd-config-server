@@ -111,9 +111,44 @@ The server is provided as a docker image and can be started with the following o
 | GITLAB_BASE_URL  | https://gitlab.com/api/v4 | address your self hosted gitlab |
 | GITLABUSERNAME\* |                           | used to find your project       |
 
-##### When using the file system
+#### When using the file system
 
 There is no additional configuration needed beyond the `SOURCE` but there needs to be a volume mounted to `/app/dist/configfiles`.
+
+When this is done you can move your configuration files into that volume with the following structure:
+
+````txt
+- <appid> // identifies the app that is asking for configuration
+  |- <configuration release version> // do not confuse with app version. This is the releases of your configuration
+    |- <stage>.json // identifies the stage your app wants configuration for
+```compse
+
+Example:
+
+```txt
+- my-app
+  |- 1.0.0
+    |- development.json
+    |- test.json
+    |- production.json
+- another-app
+  |- 1.0.0
+    |- development.json
+    |- test.json
+    |- production.json
+  |- 1.1.0
+    |- development.json
+    |- test.json
+    |- production.json
+  |- 2.0.0
+    |- development.json
+    |- test.json
+    |- production.json
+````
+
+## Caveats
+
+If you are using this configuration server publicly you need to make sure that your configurations files do not contain any secrets.
 
 ## Migration Guide
 

@@ -18,7 +18,6 @@ function mockFileAccessService() {
 
 describe('FileSystemService', () => {
   let service: FileSystemService;
-  let fileAccessService: FileAccessService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,7 +33,6 @@ describe('FileSystemService', () => {
     }).compile();
 
     service = module.get<FileSystemService>(FileSystemService);
-    fileAccessService = module.get<FileAccessService>(FileAccessService);
   });
 
   it('should be defined', () => {

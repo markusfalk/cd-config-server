@@ -2,12 +2,7 @@ import { atob } from 'atob';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import {
-  HttpException,
-  HttpService,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { FileBlobGithub } from '../../_interfaces/file-blob.interface';
@@ -139,15 +134,11 @@ export class GithubService {
 
   getConfigFromGithub(appid: string, appversion: string, environment: string) {
     return this.getRemoteTags(appid).pipe(
-      // tap(console.log), // tags
       switchMap((tagCollections) => this.getTrees(tagCollections, appid)),
-      // tap(console.log), // trees
       switchMap((trees) =>
         this.findFileTreesFilteredByEnvironment(trees, environment),
       ),
-      // tap(console.log), // files by environment
       switchMap((files) => this.getFileContents(files, appid)),
-      // tap(console.log),
     );
   }
 }

@@ -2,12 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import {
-  HttpException,
-  HttpService,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { ConfigurationService } from '../configuration/configuration.service';
@@ -203,23 +198,18 @@ export class GitlabService {
     environment: string,
   ): Observable<Config[]> {
     return this.getProjectId(this.gitlabUserName, appid).pipe(
-      // tap(console.log),
       switchMap((projectId) => {
         return this.getTags(projectId);
       }),
-      // tap(console.log),
       switchMap((tags) => {
         return this.getTreesFromTags(tags);
       }),
-      // tap(console.log),
       switchMap((trees) => {
         return this.filterTreesByEnvironment(environment, trees);
       }),
-      // tap(console.log),
       switchMap((trees) => {
         return this.getFileContents(trees);
       }),
-      // tap(console.log),
       catchError((err) => {
         return throwError(err);
       }),

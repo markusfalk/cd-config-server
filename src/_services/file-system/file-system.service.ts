@@ -1,18 +1,18 @@
 import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { EnvironmentEntity } from '../../_interfaces/environment.entity.interface';
-import { ConfigurationService } from '../configuration/configuration.service';
 import { FileAccessService } from '../file-access/file-access.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
 
 @Injectable()
 export class FileSystemService {
+  private readonly logger = new Logger(FileSystemService.name);
+
   constructor(
-    private readonly configService: ConfigurationService,
     private readonly fileAccessService: FileAccessService,
     private readonly semverService: SemanticVersioningService,
   ) {}
@@ -58,7 +58,7 @@ export class FileSystemService {
           },
           HttpStatus.FAILED_DEPENDENCY,
         );
-        console.error(errorMessage);
+        this.logger.error(errorMessage);
         entityCollection.push(throwError(err));
       }
     });

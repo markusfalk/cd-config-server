@@ -1,6 +1,6 @@
 import { Observable, of, throwError } from 'rxjs';
 
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 import { createErrorOptions } from '../../_interfaces/createErrorOptions.interface';
 
@@ -8,6 +8,8 @@ import fs = require('fs');
 import path = require('path');
 @Injectable()
 export class FileAccessService {
+  private readonly logger = new Logger(FileAccessService.name);
+
   nestFilePath = path.join(__dirname, '../../configfiles');
   excludedDirectories = ['.DS_Store'];
 
@@ -26,7 +28,7 @@ export class FileAccessService {
       options.httpStatus,
     );
     if (options.errorLog) {
-      console.error(options.errorLog);
+      this.logger.error(options.errorLog);
     }
     return throwError(err);
   }

@@ -2,7 +2,7 @@ import { of, throwError } from 'rxjs';
 import { parse, satisfies } from 'semver';
 import { Config } from 'src/_interfaces/config.interface';
 
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 export const enum errorsMessages {
   wrongKey = `The config file must include the key 'compatibleWithAppVersion'`,
@@ -11,6 +11,7 @@ export const enum errorsMessages {
 
 @Injectable()
 export class SemanticVersioningService {
+  private readonly logger = new Logger(SemanticVersioningService.name);
   /*
    * Checks the config attribute 'compatibleWithAppVersion' in an array of configs
    * then returns the highest matching config.
@@ -66,7 +67,7 @@ export class SemanticVersioningService {
       const check = parse(version);
       return check;
     } catch (error) {
-      console.error(error);
+      this.logger.error(error);
     }
   }
 }

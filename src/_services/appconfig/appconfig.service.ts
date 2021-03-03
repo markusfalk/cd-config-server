@@ -74,8 +74,6 @@ export class AppConfigService {
     environment: string,
   ): Observable<Config> {
     const source = this.configurationService.getEnvironmentConfig('SOURCE');
-    const config: Observable<Config>;
-
     if (!source) {
       const err = new HttpException(
         {

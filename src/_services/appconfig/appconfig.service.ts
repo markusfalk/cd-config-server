@@ -88,7 +88,6 @@ export class AppConfigService {
     environment: string,
   ): Observable<Config> {
     const source = this.configurationService.getEnvironmentConfig('SOURCE');
-    console.log('Source: ', source);
 
     switch (source) {
       case 'github':

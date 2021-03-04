@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.1.0](https://github.com/markusfalk/cd-config-server/compare/v3.0.0...v3.1.0) (2021-03-04)
+
+
+### Features
+
+* add helmet for security ([8dadf7c](https://github.com/markusfalk/cd-config-server/commit/8dadf7c8d0bfe93531eeb35fd870d18d4090a9d0))
+
+
+### Bug Fixes
+
+* remove unused var ([be69514](https://github.com/markusfalk/cd-config-server/commit/be69514e5eaca1acd432ee2cb39ec3baa5645673))
+
 ## [3.0.0](https://github.com/markusfalk/cd-config-server/compare/v2.2.0...v3.0.0) (2021-02-25)
 
 

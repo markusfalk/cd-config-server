@@ -8,9 +8,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { version } from './_services/configuration/version.json';
 import { AppModule } from './app.endpoint/app.module';
+import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
+  app.use(helmet());
 
   // Swagger
   const options = new DocumentBuilder()

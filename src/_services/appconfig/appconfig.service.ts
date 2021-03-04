@@ -31,6 +31,9 @@ export class AppConfigService {
         switchMap((configFiles) =>
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
+        catchError((err) => {
+          return throwError(err);
+        }),
       );
   }
 
@@ -68,41 +71,34 @@ export class AppConfigService {
       );
   }
 
+  private throwInvalidSourceError() {
+    const err = new HttpException(
+      {
+        status: HttpStatus.BAD_REQUEST,
+        error: `SOURCE not configured`,
+      },
+      HttpStatus.BAD_REQUEST,
+    );
+    return throwError(err);
+  }
+
   getConfig(
     appid: string,
     appversion: string,
     environment: string,
   ): Observable<Config> {
     const source = this.configurationService.getEnvironmentConfig('SOURCE');
-    if (!source) {
-      const err = new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `SOURCE not configured`,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-      return throwError(err);
-    }
+    console.log('Source: ', source);
 
-    if (source === 'github') {
-      return this.getGithubConfig(appid, appversion, environment).pipe(
-        catchError((err) => {
-          return throwError(err);
-        }),
-      );
-    } else if (source === 'gitlab') {
-      return this.getGitlabConfig(appid, appversion, environment).pipe(
-        catchError((err) => {
-          return throwError(err);
-        }),
-      );
-    } else if (source === 'filesystem') {
-      return this.getFileSystemConfig(appid, appversion, environment).pipe(
-        catchError((err) => {
-          return throwError(err);
-        }),
-      );
+    switch (source) {
+      case 'github':
+        return this.getGithubConfig(appid, appversion, environment);
+      case 'gitlab':
+        return this.getGitlabConfig(appid, appversion, environment);
+      case 'filesystem':
+        return this.getFileSystemConfig(appid, appversion, environment);
+      default:
+        return this.throwInvalidSourceError();
     }
   }
 }

@@ -1,4 +1,7 @@
-import { HttpModule } from '@nestjs/common';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { HttpException, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../configuration/configuration.service';
@@ -31,5 +34,17 @@ describe('ConfigService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('should throw error with NO config', () => {
+    service
+      .getConfig('my-app', '1.0.0', 'test')
+      .pipe(
+        catchError((err) => {
+          expect(err).toBeInstanceOf(HttpException);
+          return of(err);
+        }),
+      )
+      .subscribe();
   });
 });

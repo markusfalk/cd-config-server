@@ -87,16 +87,12 @@ describe('Config Endpoints (e2e)', () => {
     );
 
     // file contents
-    expect(
-      httpService.get,
-    ).toHaveBeenCalledWith(
+    expect(httpService.get).toHaveBeenCalledWith(
       `${gitlabBaseUrlExpected}/projects/1/repository/files/${environment}.json/raw`,
       { params: { ref: 'refone' } },
     );
 
-    expect(
-      httpService.get,
-    ).toHaveBeenCalledWith(
+    expect(httpService.get).toHaveBeenCalledWith(
       `${gitlabBaseUrlExpected}/projects/1/repository/files/${environment}.json/raw`,
       { params: { ref: 'reftwo' } },
     );

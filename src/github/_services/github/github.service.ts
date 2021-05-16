@@ -21,13 +21,11 @@ export class GithubService {
     private readonly errorService: ErrorService,
   ) {}
 
-  private githubUserName = this.configService.getEnvironmentConfig(
-    'GITHUBUSERNAME',
-  );
+  private githubUserName =
+    this.configService.getEnvironmentConfig('GITHUBUSERNAME');
 
-  private githubPassword = this.configService.getEnvironmentConfig(
-    'GITHUBPASSWORD',
-  );
+  private githubPassword =
+    this.configService.getEnvironmentConfig('GITHUBPASSWORD');
 
   private auth =
     'Basic ' +

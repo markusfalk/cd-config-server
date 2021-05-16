@@ -57,10 +57,8 @@ export class FileSystemService {
         });
       }
 
-      const environmentEntity: Observable<EnvironmentEntity> = this.createEnviromentEntityInFolder(
-        appid,
-        configVersion,
-      );
+      const environmentEntity: Observable<EnvironmentEntity> =
+        this.createEnviromentEntityInFolder(appid, configVersion);
 
       entityCollection.push(environmentEntity);
     });
@@ -78,10 +76,8 @@ export class FileSystemService {
 
     environmentEntities.forEach((entity) => {
       const path = `${appid}/${entity.configVersion}`;
-      const tmpConfig: Observable<Config> = this.fileAccessService.readFile<Config>(
-        path,
-        filename,
-      );
+      const tmpConfig: Observable<Config> =
+        this.fileAccessService.readFile<Config>(path, filename);
 
       configCollection.push(tmpConfig);
     });

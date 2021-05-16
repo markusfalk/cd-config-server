@@ -1,4 +1,4 @@
-import { Tree } from 'src/_interfaces/tree.interface';
+import { Tree } from '../../src/github/_interfaces/tree.interface';
 
 export const mockTreeDevelopment: Tree = {
   path: 'development.json',

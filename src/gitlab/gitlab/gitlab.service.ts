@@ -47,9 +47,8 @@ export class GitlabService {
     private readonly errorService: ErrorService,
   ) {}
 
-  private gitlabUserName = this.configService.getEnvironmentConfig(
-    'GITLABUSERNAME',
-  );
+  private gitlabUserName =
+    this.configService.getEnvironmentConfig('GITLABUSERNAME');
 
   private gitlabBaseUrl =
     this.configService.getEnvironmentConfig('GITLAB_BASE_URL') ||

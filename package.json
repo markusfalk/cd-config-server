@@ -21,7 +21,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "sync:configfiles": "sync-glob --watch 'src/_configfiles/**/*' dist/configfiles",
+    "sync:configfiles": "sync-glob --watch --delete 'src/_configfiles/**/*' dist/configfiles",
     "start:dev": "nest start --watch --watchAssets && npm run sync:configfiles",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",

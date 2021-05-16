@@ -77,6 +77,8 @@ To match application version and configuration you must provide the `compatibleW
 
 ⚠️ Be aware that this is the version of the application that this specific configuration is compatible with not the version of the configuration itself. They vary because they now have different lifecycles.
 
+⚠️ If the configuration has a breaking change, make sure to deploy the config first to avoid apps in production without propper configuration and be aware of the caching that is configured for configuration output.
+
 In case of a none-breaking change in the configuration file, you would release a new version of the configuration that is still compatible with already deployed app causing for the config to have a new release but with no need to release a new app.
 
 ## Setup

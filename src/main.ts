@@ -6,7 +6,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { version } from './_services/configuration/version.json';
+import { version } from './configuration/configuration/version.json';
 import { AppModule } from './app.endpoint/app.module';
 import * as helmet from 'helmet';
 

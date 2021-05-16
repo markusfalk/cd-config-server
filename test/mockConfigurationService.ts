@@ -1,4 +1,4 @@
-import { ConfigurationService } from '../src/_services/configuration/configuration.service';
+import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
 
 export const mockConfigurationService = (
   env: NodeJS.ProcessEnv,

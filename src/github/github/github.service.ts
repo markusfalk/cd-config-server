@@ -15,8 +15,8 @@ import { TagCollection } from '../../_interfaces/tag-collection.interface';
 import { Tag } from '../../_interfaces/tag.interface';
 import { Tree } from '../../_interfaces/tree.interface';
 import { Trees } from '../../_interfaces/trees.interface';
-import { ConfigurationService } from '../configuration/configuration.service';
-import { ErrorService } from '../error/error.service';
+import { ConfigurationService } from '../../configuration/configuration/configuration.service';
+import { ErrorService } from '../../error/error/error.service';
 
 @Injectable()
 export class GithubService {

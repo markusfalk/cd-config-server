@@ -1,14 +1,14 @@
 import { CacheModule, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ErrorService } from '../../_services/error/error.service';
+import { ErrorService } from '../../error/error/error.service';
 
-import { AppConfigService } from '../../_services/appconfig/appconfig.service';
-import { ConfigurationService } from '../../_services/configuration/configuration.service';
-import { FileAccessService } from '../../_services/file-access/file-access.service';
-import { FileSystemService } from '../../_services/file-system/file-system.service';
-import { GithubService } from '../../_services/github/github.service';
-import { GitlabService } from '../../_services/gitlab/gitlab.service';
-import { SemanticVersioningService } from '../../_services/semantic-versioning/semantic-versioning.service';
+import { AppConfigService } from '../_services/appconfig/appconfig.service';
+import { ConfigurationService } from '../../configuration/configuration/configuration.service';
+import { FileAccessService } from '../../filesystem/file-access/file-access.service';
+import { FileSystemService } from '../../filesystem/file-system/file-system.service';
+import { GithubService } from '../../github/github/github.service';
+import { GitlabService } from '../../gitlab/gitlab/gitlab.service';
+import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { ConfigApiController } from './config-api.controller';
 
 describe('ConfigApiController', () => {

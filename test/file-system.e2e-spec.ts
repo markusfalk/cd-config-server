@@ -3,8 +3,8 @@ import * as request from 'supertest';
 import { HttpModule, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ConfigurationService } from '../src/_services/configuration/configuration.service';
-import { FileAccessService } from '../src/_services/file-access/file-access.service';
+import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
+import { FileAccessService } from '../src/filesystem/file-access/file-access.service';
 import { AppModule } from '../src/app.endpoint/app.module';
 import { mockConfigurationService } from './mockConfigurationService';
 import { mockFileAccessResponse } from './mockFileAccessResponse';

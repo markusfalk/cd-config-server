@@ -3,7 +3,7 @@ import { parse, satisfies } from 'semver';
 import { Config } from 'src/_interfaces/config.interface';
 
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { ErrorService } from '../error/error.service';
+import { ErrorService } from '../../error/error/error.service';
 import { errorMessages } from './errorMessages.enum';
 
 @Injectable()

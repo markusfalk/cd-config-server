@@ -2,11 +2,11 @@ import { of } from 'rxjs';
 
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ConfigurationService } from '../configuration/configuration.service';
+import { ConfigurationService } from '../../configuration/configuration/configuration.service';
 import { FileAccessService } from '../file-access/file-access.service';
-import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
+import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { FileSystemService } from './file-system.service';
-import { ErrorService } from '../error/error.service';
+import { ErrorService } from '../../error/error/error.service';
 
 function mockFileAccessService() {
   return {

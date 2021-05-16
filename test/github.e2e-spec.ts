@@ -3,7 +3,7 @@ import * as request from 'supertest';
 import { HttpModule, HttpService, INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { ConfigurationService } from '../src/_services/configuration/configuration.service';
+import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
 import { AppModule } from '../src/app.endpoint/app.module';
 import { mockFileContentRequestGithub } from './_mock-responses/github/FileContentsRequest.mock';
 import { mockTagsResponseGithub } from './_mock-responses/github/TagsRequest.mock';

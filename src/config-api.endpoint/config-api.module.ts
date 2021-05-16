@@ -1,26 +1,27 @@
 import { CacheModule, HttpModule, Module } from '@nestjs/common';
-import { ErrorService } from '../_services/error/error.service';
+import { ErrorService } from '../error/error/error.service';
 
-import { AppConfigService } from '../_services/appconfig/appconfig.service';
-import { ConfigurationService } from '../_services/configuration/configuration.service';
-import { FileAccessService } from '../_services/file-access/file-access.service';
-import { FileSystemService } from '../_services/file-system/file-system.service';
-import { GithubService } from '../_services/github/github.service';
-import { GitlabService } from '../_services/gitlab/gitlab.service';
-import { SemanticVersioningService } from '../_services/semantic-versioning/semantic-versioning.service';
+import { AppConfigService } from './_services/appconfig/appconfig.service';
+import { ConfigurationService } from '../configuration/configuration/configuration.service';
+import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { ConfigApiController } from './config-api/config-api.controller';
+import { FilesystemModule } from '../filesystem/filesystem.module';
+import { GithubModule } from '../github/github.module';
+import { GitlabModule } from '../gitlab/gitlab.module';
 
 @Module({
   controllers: [ConfigApiController],
-  imports: [HttpModule, CacheModule.register()],
+  imports: [
+    HttpModule,
+    CacheModule.register(),
+    FilesystemModule,
+    GithubModule,
+    GitlabModule,
+  ],
   providers: [
     ErrorService,
-    FileAccessService,
     AppConfigService,
     ConfigurationService,
-    FileSystemService,
-    GithubService,
-    GitlabService,
     SemanticVersioningService,
   ],
 })

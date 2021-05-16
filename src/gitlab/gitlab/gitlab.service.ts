@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
-import { ConfigurationService } from '../configuration/configuration.service';
-import { ErrorService } from '../error/error.service';
+import { ConfigurationService } from '../../configuration/configuration/configuration.service';
+import { ErrorService } from '../../error/error/error.service';
 
 export interface GitlabProject {
   id: number;

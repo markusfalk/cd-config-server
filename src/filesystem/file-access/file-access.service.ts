@@ -4,7 +4,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 
 import fs = require('fs');
 import path = require('path');
-import { ErrorService } from '../error/error.service';
+import { ErrorService } from '../../error/error/error.service';
 import { errorMessages } from './errorMessages.enum';
 
 @Injectable()

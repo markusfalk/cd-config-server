@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
-import { AppConfigService } from '../../_services/appconfig/appconfig.service';
+import { AppConfigService } from '../_services/appconfig/appconfig.service';
 
 @Controller()
 @UseInterceptors(CacheInterceptor)

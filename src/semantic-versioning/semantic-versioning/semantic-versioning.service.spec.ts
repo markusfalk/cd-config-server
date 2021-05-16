@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { forkJoin } from 'rxjs';
 
 import { Config } from '../../_interfaces/config.interface';
-import { ErrorService } from '../error/error.service';
+import { ErrorService } from '../../error/error/error.service';
 import { errorMessages } from './errorMessages.enum';
 import { SemanticVersioningService } from './semantic-versioning.service';
 

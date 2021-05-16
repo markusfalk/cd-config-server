@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 
 import { HttpService } from '@nestjs/common';
 
-import { GitlabTree } from '../../../src/_services/gitlab/gitlab.service';
+import { GitlabTree } from '../../../src/gitlab/gitlab/gitlab.service';
 
 const responseWithoutTrees: GitlabTree[] = [];
 const responseWithTrees: GitlabTree[] = [

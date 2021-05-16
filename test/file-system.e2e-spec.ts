@@ -48,6 +48,21 @@ describe('Config Endpoints (e2e)', () => {
     });
   });
 
+  it('should return error on unknown appid', async () => {
+    const appid = 'unknown';
+    const appVersion = '1.0.0';
+    const environment = 'development';
+
+    const response = await request(app.getHttpServer())
+      .get(`/${appid}/${appVersion}/${environment}`)
+      .expect(404);
+
+    expect(response.body).toEqual({
+      message: 'No configuration versions found',
+      statusCode: 404,
+    });
+  });
+
   it('should filter by appversion', async () => {
     const appid = 'appOne';
     const appVersion = '2.0.0';
@@ -62,6 +77,40 @@ describe('Config Endpoints (e2e)', () => {
     expect(response.body).toEqual({
       compatibleWithAppVersion: '^2.0.0',
       content: environment,
+    });
+  });
+
+  it('should error on incompatible version', async () => {
+    const appid = 'appOne';
+    const appVersion = '555.0.0';
+    const environment = 'development';
+
+    mockFileAccessResponse(fileAccessService, environment);
+
+    const response = await request(app.getHttpServer())
+      .get(`/${appid}/${appVersion}/${environment}`)
+      .expect(404);
+
+    expect(response.body).toEqual({
+      message: `Could not find config file that is compatible with app version ${appVersion}`,
+      statusCode: 404,
+    });
+  });
+
+  it('should error on unknown environment', async () => {
+    const appid = 'appOne';
+    const appVersion = '1.0.0';
+    const environment = 'unknown';
+
+    mockFileAccessResponse(fileAccessService, environment);
+
+    const response = await request(app.getHttpServer())
+      .get(`/${appid}/${appVersion}/${environment}`)
+      .expect(404);
+
+    expect(response.body).toEqual({
+      message: `${environment}.json is not the environment you are looking for`,
+      statusCode: 404,
     });
   });
 

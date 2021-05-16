@@ -1,4 +1,5 @@
-import { of } from 'rxjs';
+import { HttpException } from '@nestjs/common';
+import { of, throwError } from 'rxjs';
 
 import { FileAccessService } from '../src/_services/file-access/file-access.service';
 
@@ -22,17 +23,45 @@ export function mockFileAccessResponse(
       of(['development.json', 'test.json', 'production.json']),
     );
 
-  jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() =>
-    of({
-      compatibleWithAppVersion: '^1.0.0',
-      content: environment,
-    }),
-  );
+  if (
+    environment === 'development' ||
+    environment === 'test' ||
+    environment === 'production'
+  ) {
+    jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() =>
+      of({
+        compatibleWithAppVersion: '^1.0.0',
+        content: environment,
+      }),
+    );
 
-  jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() =>
-    of({
-      compatibleWithAppVersion: '^2.0.0',
-      content: environment,
-    }),
-  );
+    jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() =>
+      of({
+        compatibleWithAppVersion: '^2.0.0',
+        content: environment,
+      }),
+    );
+  } else {
+    jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() => {
+      const error = new HttpException(
+        {
+          message: `${environment}.json is not the environment you are looking for`,
+          statusCode: 404,
+        },
+        404,
+      );
+      return throwError(error);
+    });
+
+    jest.spyOn(fileAccessService, 'readFile').mockImplementationOnce(() => {
+      const error = new HttpException(
+        {
+          message: `${environment}.json is not the environment you are looking for`,
+          statusCode: 404,
+        },
+        404,
+      );
+      return throwError(error);
+    });
+  }
 }

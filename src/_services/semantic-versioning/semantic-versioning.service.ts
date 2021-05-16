@@ -1,73 +1,81 @@
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { parse, satisfies } from 'semver';
 import { Config } from 'src/_interfaces/config.interface';
 
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-
-export const enum errorsMessages {
-  wrongKey = `The config file must include the key 'compatibleWithAppVersion'`,
-  noConfig = `Could not find config file that is compatible with app version`,
-}
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { ErrorService } from '../error/error.service';
+import { errorMessages } from './errorMessages.enum';
 
 @Injectable()
 export class SemanticVersioningService {
+  constructor(private errorService: ErrorService) {}
+
   private readonly logger = new Logger(SemanticVersioningService.name);
+
+  private filterConfigFilesWithSemanticVersioningProperty(
+    configFiles: Config[],
+    appVersion: string,
+  ) {
+    return configFiles.filter((file) => {
+      return this.filterBySemanticVersioningKey(file, appVersion);
+    });
+  }
+
+  private filterBySemanticVersioningKey(file: Config, appVersion: string) {
+    if (file.compatibleWithAppVersion) {
+      return satisfies(appVersion, file.compatibleWithAppVersion);
+    } else {
+      this.logger.error(`${errorMessages.missingKey}: ${JSON.stringify(file)}`);
+      return false;
+    }
+  }
+
+  private sortBySemanticVersion(configFiles: Config[]) {
+    return configFiles.sort((a, b) => {
+      return ('' + a.compatibleWithAppVersion).localeCompare(
+        b.compatibleWithAppVersion,
+      );
+    });
+  }
+
   /*
    * Checks the config attribute 'compatibleWithAppVersion' in an array of configs
    * then returns the highest matching config.
    */
   findMatchingFile(configFiles: Config[], appVersion: string) {
-    let attributeError = false;
-    const matched = configFiles.filter((file) => {
-      if (file.compatibleWithAppVersion) {
-        return satisfies(appVersion, file.compatibleWithAppVersion);
-      } else {
-        attributeError = true;
-      }
-    });
-
-    if (attributeError) {
-      const err = new HttpException(
-        {
-          status: HttpStatus.NOT_ACCEPTABLE,
-          error: errorsMessages.wrongKey,
-        },
-        HttpStatus.NOT_ACCEPTABLE,
-      );
-      return throwError(err);
+    if (!this.parseSemanticVersion(appVersion)) {
+      const errorMessage = `${appVersion}: ${errorMessages.nonSemver}`;
+      return this.errorService.handleHttpError({
+        httpStatus: HttpStatus.BAD_REQUEST,
+        errorMessage,
+      });
     }
+
+    const matched = this.filterConfigFilesWithSemanticVersioningProperty(
+      configFiles,
+      appVersion,
+    );
 
     // need to sort to use last entry as highest matching version
     if (matched.length > 1) {
-      matched.sort((a, b) => {
-        return ('' + a.compatibleWithAppVersion).localeCompare(
-          b.compatibleWithAppVersion,
-        );
-      });
+      this.sortBySemanticVersion(matched);
     }
 
     // return last value in case more than one config matches the appversion
     const last = matched[matched.length - 1];
+
     if (last) {
       return of(last);
     } else {
-      const err = new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: errorsMessages.noConfig + ` ${appVersion}`,
-        },
-        HttpStatus.NOT_FOUND,
-      );
-      return throwError(err);
+      const errorMessage = `${errorMessages.noConfig} ${appVersion}`;
+      return this.errorService.handleHttpError({
+        httpStatus: HttpStatus.NOT_FOUND,
+        errorMessage,
+      });
     }
   }
 
-  parseSemanticVersion(version: string) {
-    try {
-      const check = parse(version);
-      return check;
-    } catch (error) {
-      this.logger.error(error);
-    }
+  parseSemanticVersion(version: string): boolean {
+    return parse(version);
   }
 }

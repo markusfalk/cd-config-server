@@ -11,8 +11,9 @@ import { GithubService } from '../github/github.service';
 import { GitlabService } from '../gitlab/gitlab.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
 import { AppConfigService } from './appconfig.service';
+import { ErrorService } from '../error/error.service';
 
-describe('ConfigService', () => {
+describe('AppConfigService', () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
@@ -20,12 +21,13 @@ describe('ConfigService', () => {
       imports: [HttpModule],
       providers: [
         AppConfigService,
-        GithubService,
         ConfigurationService,
+        ErrorService,
+        FileAccessService,
+        FileSystemService,
+        GithubService,
         GitlabService,
         SemanticVersioningService,
-        FileSystemService,
-        FileAccessService,
       ],
     }).compile();
 

@@ -9,13 +9,14 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Config } from '../../_interfaces/config.interface';
 import { FileAccessService } from './file-access.service';
+import { ErrorService } from '../error/error.service';
 
 describe('FileAccessService', () => {
   let service: FileAccessService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FileAccessService],
+      providers: [ErrorService, FileAccessService],
     }).compile();
 
     service = module.get<FileAccessService>(FileAccessService);

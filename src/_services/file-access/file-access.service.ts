@@ -1,17 +1,18 @@
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-
-import { createErrorOptions } from '../../_interfaces/createErrorOptions.interface';
+import { HttpStatus, Injectable } from '@nestjs/common';
 
 import fs = require('fs');
 import path = require('path');
+import { ErrorService } from '../error/error.service';
+import { errorMessages } from './errorMessages.enum';
+
 @Injectable()
 export class FileAccessService {
-  private readonly logger = new Logger(FileAccessService.name);
+  constructor(private errorService: ErrorService) {}
 
   nestFilePath = path.join(__dirname, '../../configfiles');
-  excludedDirectories = ['.DS_Store'];
+  excludedDirectories = ['.DS_Store', '.git'];
 
   private removeExcludedDirectories(directories: string[]): string[] {
     return directories.filter((directory) => {
@@ -19,27 +20,12 @@ export class FileAccessService {
     });
   }
 
-  private createError(options: createErrorOptions) {
-    const err = new HttpException(
-      {
-        status: options.httpStatus,
-        error: options.errorMessage,
-      },
-      options.httpStatus,
-    );
-    if (options.errorLog) {
-      this.logger.error(options.errorLog);
-    }
-    return throwError(err);
-  }
-
   private parseFile<FileType>(fileContents: string): Observable<FileType> {
     if (fileContents.length) {
       return of(JSON.parse(fileContents));
     } else {
-      return this.createError({
-        errorLog: 'ERROR: File is empty.',
-        errorMessage: 'File is empty.',
+      return this.errorService.handleHttpError({
+        errorMessage: errorMessages.emptyFile,
         httpStatus: HttpStatus.NOT_FOUND,
       });
     }
@@ -53,9 +39,9 @@ export class FileAccessService {
       });
       return this.parseFile<FileType>(fileContent);
     } catch (error) {
-      return this.createError({
+      return this.errorService.handleHttpError({
         errorLog: error,
-        errorMessage: `File not found. Is ${fileName} the environment you are looking for?`,
+        errorMessage: `${fileName} ${errorMessages.environmentNotFound}`,
         httpStatus: HttpStatus.NOT_FOUND,
       });
     }
@@ -68,9 +54,9 @@ export class FileAccessService {
       const filtered = this.removeExcludedDirectories(directory);
       return of(filtered);
     } catch (error) {
-      return this.createError({
+      return this.errorService.handleHttpError({
         errorLog: error,
-        errorMessage: `No configuration versions found.`,
+        errorMessage: errorMessages.noConfig,
         httpStatus: HttpStatus.NOT_FOUND,
       });
     }

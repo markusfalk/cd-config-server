@@ -1,4 +1,5 @@
 import { CacheModule, HttpModule, Module } from '@nestjs/common';
+import { ErrorService } from '../_services/error/error.service';
 
 import { AppConfigService } from '../_services/appconfig/appconfig.service';
 import { ConfigurationService } from '../_services/configuration/configuration.service';
@@ -13,6 +14,7 @@ import { ConfigApiController } from './config-api/config-api.controller';
   controllers: [ConfigApiController],
   imports: [HttpModule, CacheModule.register()],
   providers: [
+    ErrorService,
     FileAccessService,
     AppConfigService,
     ConfigurationService,

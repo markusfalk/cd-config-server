@@ -1,12 +1,13 @@
-import { forkJoin, Observable, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Injectable, Logger } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { EnvironmentEntity } from '../../_interfaces/environment.entity.interface';
 import { FileAccessService } from '../file-access/file-access.service';
 import { SemanticVersioningService } from '../semantic-versioning/semantic-versioning.service';
+import { ErrorService } from '../error/error.service';
 
 @Injectable()
 export class FileSystemService {
@@ -15,52 +16,54 @@ export class FileSystemService {
   constructor(
     private readonly fileAccessService: FileAccessService,
     private readonly semverService: SemanticVersioningService,
+    private readonly errorService: ErrorService,
   ) {}
 
+  /**
+   * Get all available folders that represent a specific configuration version
+   */
   private getConfigVersions(appid: string): Observable<string[]> {
     return this.fileAccessService.readDirectory(appid);
-    // TODO: error: `No configuration versions found. Is '${appid}' the correct app identifier?`,
   }
 
+  private createEnviromentEntityInFolder(appid: string, configVersion: string) {
+    return this.fileAccessService
+      .readDirectory(`${appid}/${configVersion}`)
+      .pipe(
+        map<string[], EnvironmentEntity>((dir) => {
+          return {
+            files: dir,
+            configVersion,
+          };
+        }),
+      );
+  }
+
+  /**
+   * Get all available environments represented by a json file for each configuration version
+   */
   private getFilesByEnvironment(
     appid: string,
     configVersions: string[],
   ): Observable<EnvironmentEntity[]> {
     const entityCollection: Observable<EnvironmentEntity>[] = [];
+
     configVersions.forEach((configVersion) => {
-      const isVersionSemver = this.semverService.parseSemanticVersion(
+      if (!this.semverService.parseSemanticVersion(configVersion)) {
+        const errorMessage = `The folder name '${configVersion}' is incompatible with semantic versioning. See https://semver.org for more details.`;
+        this.errorService.handleHttpError({
+          httpStatus: HttpStatus.FAILED_DEPENDENCY,
+          errorMessage,
+          logLevel: 'warn',
+        });
+      }
+
+      const environmentEntity: Observable<EnvironmentEntity> = this.createEnviromentEntityInFolder(
+        appid,
         configVersion,
       );
 
-      if (isVersionSemver) {
-        const eEntity: Observable<EnvironmentEntity> = this.fileAccessService
-          .readDirectory(`${appid}/${configVersion}`)
-          .pipe(
-            map((dir) => {
-              const entity: EnvironmentEntity = {
-                files: dir,
-                configVersion,
-              };
-              return entity;
-            }),
-            catchError((err) => {
-              return of(err);
-            }),
-          );
-        entityCollection.push(eEntity);
-      } else {
-        // TODO: throw error? empty results? when version is not semver.
-        const errorMessage = `The folder name '${configVersion}' is incompatible with semantic versioning. See https://semver.org for more details.`;
-        const err = new HttpException(
-          {
-            status: HttpStatus.FAILED_DEPENDENCY,
-            error: errorMessage,
-          },
-          HttpStatus.FAILED_DEPENDENCY,
-        );
-        this.logger.error(errorMessage);
-        entityCollection.push(throwError(err));
-      }
+      entityCollection.push(environmentEntity);
     });
 
     return forkJoin(entityCollection);

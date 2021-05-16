@@ -1,5 +1,6 @@
 import { CacheModule, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ErrorService } from '../../_services/error/error.service';
 
 import { AppConfigService } from '../../_services/appconfig/appconfig.service';
 import { ConfigurationService } from '../../_services/configuration/configuration.service';
@@ -18,6 +19,7 @@ describe('ConfigApiController', () => {
       controllers: [ConfigApiController],
       imports: [HttpModule, CacheModule.register()],
       providers: [
+        ErrorService,
         AppConfigService,
         GithubService,
         GitlabService,

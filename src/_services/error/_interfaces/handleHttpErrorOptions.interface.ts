@@ -1,6 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
+import { LogLevel } from './LogLevel';
 
-export interface createErrorOptions {
+export interface HandleHttpErrorOptions {
   /*
    * Will be shown to user.
    */
@@ -12,4 +13,6 @@ export interface createErrorOptions {
   errorLog?: string;
 
   httpStatus: HttpStatus;
+
+  logLevel?: LogLevel;
 }

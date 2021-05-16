@@ -2,10 +2,16 @@ import { AxiosRequestConfig } from 'axios';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { ConfigurationService } from '../configuration/configuration.service';
+import { ErrorService } from '../error/error.service';
 
 export interface GitlabProject {
   id: number;
@@ -38,6 +44,7 @@ export class GitlabService {
   constructor(
     private readonly http: HttpService,
     private readonly configService: ConfigurationService,
+    private readonly errorService: ErrorService,
   ) {}
 
   private gitlabUserName = this.configService.getEnvironmentConfig(
@@ -52,14 +59,10 @@ export class GitlabService {
 
   private getProjectId(username: string, appid: string): Observable<string> {
     if (!username) {
-      const err = new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: `GITLABUSERNAME not configured`,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-      return throwError(err);
+      return this.errorService.handleHttpError({
+        errorMessage: `GITLABUSERNAME not configured`,
+        httpStatus: HttpStatus.BAD_REQUEST,
+      });
     }
 
     const url = `${this.gitlabBaseUrl}/users/${username}/projects`;
@@ -75,14 +78,10 @@ export class GitlabService {
         if (filtered.length) {
           return of(filtered[0]);
         } else {
-          const err = new HttpException(
-            {
-              status: HttpStatus.NOT_FOUND,
-              error: `Could not find '${appid}-config' repository for configured user.`,
-            },
-            HttpStatus.NOT_FOUND,
-          );
-          return throwError(err);
+          return this.errorService.handleHttpError({
+            errorMessage: `Could not find '${appid}-config' repository for configured user.`,
+            httpStatus: HttpStatus.NOT_FOUND,
+          });
         }
       }),
       switchMap((project) => {
@@ -153,14 +152,10 @@ export class GitlabService {
     });
 
     if (error) {
-      const err = new HttpException(
-        {
-          status: HttpStatus.NOT_FOUND,
-          error: `Could not find ${environment}.json`,
-        },
-        HttpStatus.NOT_FOUND,
-      );
-      return throwError(err);
+      return this.errorService.handleHttpError({
+        errorMessage: `Could not find ${environment}.json`,
+        httpStatus: HttpStatus.NOT_FOUND,
+      });
     } else {
       return of(allFiles);
     }

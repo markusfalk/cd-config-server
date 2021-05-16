@@ -6,9 +6,9 @@ This server provides a configuration API to be used within Continuous Delivery e
 
 ## Concept
 
-The idea behind this software is to provide a global service for your apps to receive configuration values from. Configuration is stored in a git repository that is seperated from the repositories in which your apps reside. This makes it possible for apps and configurations to have independent lifecyles and both be treated like code.
+The idea behind this software is to provide a global and public service for your apps to receive configuration values from. Configuration can be stored in a git repository that is seperated from the repositories in which your apps reside or synced to your file system. This makes it possible for apps and configurations to have independent lifecyles and both be treated like code.
 
-This service allows for apps to be build once and then put through your continuous delivery pipeline without the need to rebuild them. They all load their configuration at runtime by telling the service what they need.
+This service allows for apps to be build once and then put through your continuous delivery pipeline without the need to rebuild them. They can load their configuration at runtime by telling the service what they need.
 
 ## How it works
 
@@ -27,11 +27,13 @@ staging.json
 production.json
 ```
 
-It currently supports Github and Gitlab as a source of your configuration files.
+It currently supports Github, Gitlab or the local file system as a source of your configuration files.
 
 ### Independent Lifecyles and Deployments
 
-To make applications and configurations truly independent we need to somehow tell the service which configuration release is compatible with what version of our applications.
+Here is where the magic happens and where this configuration server is different from others.
+
+To make applications and configurations truly independent and to avoid lock-step releases with your configuration, we need to somehow tell the service which configuration release is compatible with what version of our applications.
 
 For that reason each configuration file contains this one additional and obligatory entry:
 
@@ -43,21 +45,25 @@ For that reason each configuration file contains this one additional and obligat
 
 Here you can define a semantic version range that tells the configuration server if this tag/release of your configuration is comapitble with the application version that is requesting configuration.
 
+Note however, that in case of a breaking change in your app relating to a new configuration entry this will again become a required release with your application. You can release your configuration first by specifing a breaking change. Older apps will not consume the new configuration and as soon as your new app is deployed, the configuration is already there.
+
 ### Naming Convention
 
 #### Configuration Repository Name
 
 The application id will be used to find the configuration repository by appending `-config`.
 
-| application id | configuration repositoy | url of your repository                          |
-| -------------- | ----------------------- | ----------------------------------------------- |
-| YourApp        | YourApp-config          | https://github.com/yournamespace/yourapp-config |
-| Another        | Another-config          | https://gitlab.com/yournamespace/another-config |
+| application id requested in the url | configuration repositoy | url of your configuration repository            |
+| ----------------------------------- | ----------------------- | ----------------------------------------------- |
+| YourApp                             | YourApp-config          | https://github.com/yournamespace/yourapp-config |
+| Another                             | Another-config          | https://gitlab.com/yournamespace/another-config |
 
 Examples
 
-- https://github.com/markusfalk/cd-config-server-test-config
-- https://gitlab.com/markus_falk/my-app-config
+| request url                              | url of your configuration repository                       |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| /cd-config-server-test/1.0.0/development | https://github.com/markusfalk/cd-config-server-test-config |
+| /my-app/1.0.0/development                | https://gitlab.com/markus_falk/my-app-config               |
 
 #### Matching Configuration Key
 
@@ -69,15 +75,15 @@ To match application version and configuration you must provide the `compatibleW
 }
 ```
 
-### Demo Configuration Repository
+⚠️ Be aware that this is the version of the application that this specific configuration is compatible with not the version of the configuration itself. They vary because they now have different lifecycles.
 
-- https://github.com/markusfalk/cd-config-server-test-config
+In case of a none-breaking change in the configuration file, you would release a new version of the configuration that is still compatible with already deployed app causing for the config to have a new release but with no need to release a new app.
 
 ## Setup
 
 ### Prerequisits
 
-- Configuration files hosted on github or gitlab (including self hosted)
+- Configuration files hosted on filesystem, github or gitlab (including self hosted)
 - This server is provided as a docker image
 - Your applications need be versioned using semantic versioning
 
@@ -161,3 +167,7 @@ If you are using this configuration server publicly you need to make sure that y
 ## Changelog
 
 - https://github.com/markusfalk/cd-config-server/blob/main/CHANGELOG.md
+
+## Questions?
+
+If you have any questions reach out to me on twitter: https://twitter.com/markus_falk

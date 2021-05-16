@@ -2,6 +2,7 @@ import { HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../configuration/configuration.service';
+import { ErrorService } from '../error/error.service';
 import { GithubService } from './github.service';
 
 describe('GithubService', () => {
@@ -10,7 +11,7 @@ describe('GithubService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
-      providers: [GithubService, ConfigurationService],
+      providers: [GithubService, ConfigurationService, ErrorService],
     }).compile();
 
     service = module.get<GithubService>(GithubService);

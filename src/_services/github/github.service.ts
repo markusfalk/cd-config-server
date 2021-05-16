@@ -2,7 +2,12 @@ import { atob } from 'atob';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpService, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { FileBlobGithub } from '../../_interfaces/file-blob.interface';
@@ -11,12 +16,14 @@ import { Tag } from '../../_interfaces/tag.interface';
 import { Tree } from '../../_interfaces/tree.interface';
 import { Trees } from '../../_interfaces/trees.interface';
 import { ConfigurationService } from '../configuration/configuration.service';
+import { ErrorService } from '../error/error.service';
 
 @Injectable()
 export class GithubService {
   constructor(
-    private configService: ConfigurationService,
+    private readonly configService: ConfigurationService,
     private readonly http: HttpService,
+    private readonly errorService: ErrorService,
   ) {}
 
   private githubUserName = this.configService.getEnvironmentConfig(
@@ -78,15 +85,10 @@ export class GithubService {
         if (tags.length) {
           return of(tags);
         } else {
-          const err = new HttpException(
-            {
-              status: HttpStatus.NOT_FOUND,
-              error: `No tags found in repo ${repo}`,
-            },
-            HttpStatus.NOT_FOUND,
-          );
-
-          return throwError(err);
+          return this.errorService.handleHttpError({
+            errorMessage: `No tags found in repo ${repo}`,
+            httpStatus: HttpStatus.NOT_FOUND,
+          });
         }
       }),
     );

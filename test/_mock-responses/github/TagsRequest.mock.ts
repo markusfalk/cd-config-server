@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { of } from 'rxjs';
-import { Tag } from 'src/_interfaces/tag.interface';
 
 import { HttpService } from '@nestjs/common';
+import { Tag } from 'src/github/_interfaces/tag.interface';
 
 const responseWithoutTags = [];
 const responseWithTags = [

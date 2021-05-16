@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 
-import { GithubService } from '../../src/github/github/github.service';
+import { GithubService } from '../../src/github/_services/github/github.service';
 
 // const mockRemoteTags: Tag[] = [
 //   {

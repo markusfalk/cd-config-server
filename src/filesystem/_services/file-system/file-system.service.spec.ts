@@ -1,12 +1,11 @@
 import { of } from 'rxjs';
 
 import { Test, TestingModule } from '@nestjs/testing';
-
-import { ConfigurationService } from '../../configuration/configuration/configuration.service';
+import { ConfigurationModule } from '../../../configuration/configuration.module';
+import { ErrorModule } from '../../../error/error.module';
+import { SemanticVersioningModule } from '../../../semantic-versioning/semantic-versioning.module';
 import { FileAccessService } from '../file-access/file-access.service';
-import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { FileSystemService } from './file-system.service';
-import { ErrorService } from '../../error/error/error.service';
 
 function mockFileAccessService() {
   return {
@@ -22,11 +21,9 @@ describe('FileSystemService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigurationModule, ErrorModule, SemanticVersioningModule],
       providers: [
-        ErrorService,
-        ConfigurationService,
         FileSystemService,
-        SemanticVersioningService,
         {
           provide: FileAccessService,
           useFactory: mockFileAccessService,

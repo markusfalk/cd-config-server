@@ -2,12 +2,11 @@ import { forkJoin, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { HttpStatus, Injectable, Logger } from '@nestjs/common';
-
-import { Config } from '../../_interfaces/config.interface';
+import { ErrorService } from '../../../error/error/error.service';
+import { SemanticVersioningService } from '../../../semantic-versioning/semantic-versioning/semantic-versioning.service';
+import { Config } from '../../../_interfaces/config.interface';
 import { EnvironmentEntity } from '../../_interfaces/environment.entity.interface';
 import { FileAccessService } from '../file-access/file-access.service';
-import { ErrorService } from '../../error/error/error.service';
-import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 
 @Injectable()
 export class FileSystemService {

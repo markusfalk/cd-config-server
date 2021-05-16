@@ -5,10 +5,10 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../../_interfaces/config.interface';
 import { ConfigurationService } from '../../../configuration/configuration/configuration.service';
-import { FileSystemService } from '../../../filesystem/file-system/file-system.service';
-import { GithubService } from '../../../github/github/github.service';
+import { GithubService } from '../../../github/_services/github/github.service';
 import { GitlabService } from '../../../gitlab/gitlab/gitlab.service';
 import { SemanticVersioningService } from '../../../semantic-versioning/semantic-versioning/semantic-versioning.service';
+import { FileSystemService } from '../../../filesystem/_services/file-system/file-system.service';
 
 @Injectable()
 export class AppConfigService {

@@ -1,14 +1,13 @@
 import { CacheModule, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ErrorService } from '../../error/error/error.service';
+import { ConfigApiModule } from '../../config-api.endpoint/config-api.module';
 
 import { AppConfigService } from '../../config-api.endpoint/_services/appconfig/appconfig.service';
-import { ConfigurationService } from '../../configuration/configuration/configuration.service';
-import { FileAccessService } from '../../filesystem/file-access/file-access.service';
-import { FileSystemService } from '../../filesystem/file-system/file-system.service';
-import { GithubService } from '../../github/github/github.service';
-import { GitlabService } from '../../gitlab/gitlab/gitlab.service';
-import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
+import { ConfigurationModule } from '../../configuration/configuration.module';
+import { FilesystemModule } from '../../filesystem/filesystem.module';
+import { GithubModule } from '../../github/github.module';
+import { GitlabModule } from '../../gitlab/gitlab.module';
+import { SemanticVersioningModule } from '../../semantic-versioning/semantic-versioning.module';
 import { AppController } from './app.controller';
 
 describe('AppController', () => {
@@ -16,18 +15,18 @@ describe('AppController', () => {
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule, CacheModule.register()],
-      controllers: [AppController],
-      providers: [
-        ErrorService,
-        AppConfigService,
-        GithubService,
-        SemanticVersioningService,
-        GitlabService,
-        ConfigurationService,
-        FileSystemService,
-        FileAccessService,
+      imports: [
+        HttpModule,
+        CacheModule.register(),
+        FilesystemModule,
+        GithubModule,
+        GitlabModule,
+        ConfigurationModule,
+        SemanticVersioningModule,
+        ConfigApiModule,
       ],
+      controllers: [AppController],
+      providers: [AppConfigService],
     }).compile();
 
     appController = app.get<AppController>(AppController);

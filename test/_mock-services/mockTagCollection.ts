@@ -1,4 +1,4 @@
-import { TagCollection } from '../../src/_interfaces/tag-collection.interface';
+import { TagCollection } from '../../src/github/_interfaces/tag-collection.interface';
 
 export const mockTagCollection: TagCollection[] = [
   { compatibleWithAppVersion: '1.0.0' },

@@ -24,5 +24,6 @@ import { GitlabModule } from '../gitlab/gitlab.module';
     ConfigurationService,
     SemanticVersioningService,
   ],
+  exports: [AppConfigService],
 })
 export class ConfigApiModule {}

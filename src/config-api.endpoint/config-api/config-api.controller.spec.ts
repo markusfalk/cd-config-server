@@ -1,15 +1,14 @@
 import { CacheModule, HttpModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { ErrorService } from '../../error/error/error.service';
 
-import { AppConfigService } from '../_services/appconfig/appconfig.service';
-import { ConfigurationService } from '../../configuration/configuration/configuration.service';
-import { FileAccessService } from '../../filesystem/file-access/file-access.service';
-import { FileSystemService } from '../../filesystem/file-system/file-system.service';
-import { GithubService } from '../../github/github/github.service';
-import { GitlabService } from '../../gitlab/gitlab/gitlab.service';
-import { SemanticVersioningService } from '../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { ConfigApiController } from './config-api.controller';
+import { GitlabModule } from '../../gitlab/gitlab.module';
+import { GithubModule } from '../../github/github.module';
+import { ErrorModule } from '../../error/error.module';
+import { ConfigurationModule } from '../../configuration/configuration.module';
+import { FilesystemModule } from '../../filesystem/filesystem.module';
+import { SemanticVersioningModule } from '../../semantic-versioning/semantic-versioning.module';
+import { ConfigApiModule } from '../config-api.module';
 
 describe('ConfigApiController', () => {
   let controller: ConfigApiController;
@@ -17,19 +16,16 @@ describe('ConfigApiController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConfigApiController],
-      imports: [HttpModule, CacheModule.register()],
-      providers: [
-        ErrorService,
-        AppConfigService,
-        GithubService,
-        GitlabService,
-        SemanticVersioningService,
-        GithubService,
-        GitlabService,
-        SemanticVersioningService,
-        ConfigurationService,
-        FileSystemService,
-        FileAccessService,
+      imports: [
+        HttpModule,
+        CacheModule.register(),
+        GitlabModule,
+        GithubModule,
+        ErrorModule,
+        ConfigApiModule,
+        ConfigurationModule,
+        FilesystemModule,
+        SemanticVersioningModule,
       ],
     }).compile();
 

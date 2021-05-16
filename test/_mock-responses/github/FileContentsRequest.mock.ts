@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { HttpService } from '@nestjs/common';
 
 import { Config } from '../../../src/_interfaces/config.interface';
-import { FileBlobGithub } from '../../../src/_interfaces/file-blob.interface';
+import { FileBlobGithub } from '../../../src/github/_interfaces/file-blob.interface';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const btoa = require('btoa');

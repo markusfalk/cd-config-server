@@ -7,9 +7,9 @@ import { catchError } from 'rxjs/operators';
 import { HttpException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Config } from '../../_interfaces/config.interface';
+import { Config } from '../../../_interfaces/config.interface';
 import { FileAccessService } from './file-access.service';
-import { ErrorService } from '../../error/error/error.service';
+import { ErrorService } from '../../../error/error/error.service';
 
 describe('FileAccessService', () => {
   let service: FileAccessService;

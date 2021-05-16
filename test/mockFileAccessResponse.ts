@@ -1,7 +1,7 @@
 import { HttpException } from '@nestjs/common';
 import { of, throwError } from 'rxjs';
 
-import { FileAccessService } from '../src/filesystem/file-access/file-access.service';
+import { FileAccessService } from '../src/filesystem/_services/file-access/file-access.service';
 
 export function mockFileAccessResponse(
   fileAccessService: FileAccessService,

@@ -2,12 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import {
-  HttpException,
-  HttpService,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { ConfigurationService } from '../../configuration/configuration/configuration.service';

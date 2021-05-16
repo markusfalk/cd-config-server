@@ -30,7 +30,7 @@ describe('FileAccessService', () => {
     it('should read directories', () => {
       const mockFsResponse = ['.DS_Store', '1.0.0', '2.0.0'];
       const mockServiceResponse = ['1.0.0', '2.0.0'];
-      const mockPath = path.join(__dirname, '../../configfiles');
+      const mockPath = path.join(process.cwd(), 'dist/configfiles');
       const mockFolder = 'testFolder';
       const resultingPath = `${mockPath}/${mockFolder}`;
 
@@ -67,7 +67,7 @@ describe('FileAccessService', () => {
 
   describe('read files', () => {
     it('should read staging file', () => {
-      const filepath = path.join(__dirname, '../../configfiles');
+      const filepath = path.join(process.cwd(), 'dist/configfiles');
       const filename = 'development.json';
       const resultingPath = `${filepath}/testfolder/${filename}`;
       const mockResponse = '{ "test": true }';

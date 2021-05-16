@@ -11,7 +11,7 @@ import { errorMessages } from './errorMessages.enum';
 export class FileAccessService {
   constructor(private errorService: ErrorService) {}
 
-  nestFilePath = path.join(__dirname, '../../configfiles');
+  nestFilePath = path.join(process.cwd(), 'dist/configfiles');
   excludedDirectories = ['.DS_Store', '.git'];
 
   private removeExcludedDirectories(directories: string[]): string[] {

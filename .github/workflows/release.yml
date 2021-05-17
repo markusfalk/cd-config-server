@@ -33,6 +33,7 @@ jobs:
 
       - name: test
         run: |
+          npm run sync:configfiles
           npm run test
           npm run test:e2e
 
@@ -65,5 +66,3 @@ jobs:
           tags: |
             markusfalk/cd-config-server:latest
             markusfalk/cd-config-server:${{ env.PACKAGE_VERSION }}
-
-     

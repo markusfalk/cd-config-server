@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.2.0](https://github.com/markusfalk/cd-config-server/compare/v3.1.0...v3.2.0) (2021-05-17)
+
+
+### Features
+
+* update nest.js ([4ea3a8b](https://github.com/markusfalk/cd-config-server/commit/4ea3a8b3b3f9a2e87abcd49c2999bd5c9323f915))
+* **file-system:** improve error handling and logging ([fd07095](https://github.com/markusfalk/cd-config-server/commit/fd07095decf1932068660d1efc101f23016f7205))
+* **github:** improve error handling and logging ([4eae0f0](https://github.com/markusfalk/cd-config-server/commit/4eae0f02633b5a23301c0145d64e9424afcdcc83))
+* **gitlab:** improve error handling and logging ([1545d84](https://github.com/markusfalk/cd-config-server/commit/1545d84af2815bc4ee93908b3f1c5db29fb0e891))
+
+
+### Bug Fixes
+
+* **file-system:** use absolute path after refactoring ([00e0881](https://github.com/markusfalk/cd-config-server/commit/00e08810a69e460960fc1f2553acf00285bbe8df))
+
 ## [3.1.0](https://github.com/markusfalk/cd-config-server/compare/v3.0.0...v3.1.0) (2021-03-04)
 
 

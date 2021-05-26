@@ -5,27 +5,15 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via NPM",
+      "type": "node",
       "request": "launch",
-      "runtimeArgs": [
-        "run-script",
-        "debug"
-      ],
-      "runtimeExecutable": "npm",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
-      "type": "pwa-node"
-    },
-      {
-          "type": "node",
-          "request": "launch",
-          "name": "Debug Nest Framework",
-          "args": ["${workspaceFolder}/src/main.ts"],
-          "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
-          "sourceMaps": true,
-          "cwd": "${workspaceRoot}",
-          "protocol": "inspector"
-      }
+      "name": "Debug Nest Framework",
+      "args": ["${workspaceFolder}/src/main.ts"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "program": "${workspaceFolder}/dist/main.js"
+    }
   ]
 }

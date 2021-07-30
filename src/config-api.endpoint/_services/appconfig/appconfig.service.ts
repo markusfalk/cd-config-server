@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
@@ -31,7 +32,7 @@ export class AppConfigService {
         switchMap((configFiles) =>
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
-        catchError((err) => {
+        catchError((err: AxiosError) => {
           return throwError(err);
         }),
       );
@@ -48,7 +49,7 @@ export class AppConfigService {
         switchMap((configFiles) =>
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
-        catchError((err) => {
+        catchError((err: AxiosError) => {
           return throwError(err);
         }),
       );

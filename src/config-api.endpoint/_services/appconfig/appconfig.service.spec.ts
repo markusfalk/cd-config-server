@@ -15,19 +15,26 @@ import { FileSystemService } from '../../../filesystem/_services/file-system/fil
 
 describe('AppConfigService', () => {
   let service: AppConfigService;
+  const configurationService = new ConfigurationService();
+  jest
+    .spyOn(configurationService, 'getEnvironmentConfig')
+    .mockReturnValue(null);
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [HttpModule],
       providers: [
         AppConfigService,
-        ConfigurationService,
         ErrorService,
         FileAccessService,
         FileSystemService,
         GithubService,
         GitlabService,
         SemanticVersioningService,
+        {
+          provide: ConfigurationService,
+          useValue: configurationService,
+        },
       ],
     }).compile();
 
@@ -38,12 +45,18 @@ describe('AppConfigService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should throw error with NO config', () => {
+  it('should throw error with NO environment config', (done) => {
     service
       .getConfig('my-app', '1.0.0', 'test')
       .pipe(
-        catchError((err) => {
+        catchError((err: HttpException) => {
           expect(err).toBeInstanceOf(HttpException);
+          expect(err.getResponse()).toEqual({
+            error: 'SOURCE not configured',
+            status: 400,
+          });
+          expect(err.getStatus()).toEqual(400);
+          done();
           return of(err);
         }),
       )

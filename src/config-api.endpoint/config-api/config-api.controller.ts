@@ -1,10 +1,13 @@
 import { catchError } from 'rxjs/operators';
+import { AxiosError } from 'axios';
 
 import {
   CacheInterceptor,
   CacheTTL,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   UseInterceptors,
 } from '@nestjs/common';
@@ -37,8 +40,8 @@ export class ConfigApiController {
     @Param('environment') environment: string,
   ) {
     return this.appConfigService.getConfig(appid, appversion, environment).pipe(
-      catchError((err) => {
-        throw err;
+      catchError((err: AxiosError) => {
+        throw new HttpException(err.response.statusText, err.response.status);
       }),
     );
   }

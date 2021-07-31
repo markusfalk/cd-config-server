@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.3.0](https://github.com/markusfalk/cd-config-server/compare/v3.2.0...v3.3.0) (2021-07-31)
+
+
+### Features
+
+* **github:** improve error messaging ([801a34d](https://github.com/markusfalk/cd-config-server/commit/801a34dcd2bd05cd3dee9eed5af400f2cb51f792))
+* upgrade to nestjs 8 ([a717296](https://github.com/markusfalk/cd-config-server/commit/a7172960d1b3cf0557cd74e0a1f459b857b57d71))
+
+
+### Bug Fixes
+
+* improve error handling ([0364e4f](https://github.com/markusfalk/cd-config-server/commit/0364e4fdf1f6c4a0c835a796382d0e3b52de5271))
+* migrate imports ([a0894e1](https://github.com/markusfalk/cd-config-server/commit/a0894e1f14b4f289dfbdaddd673002c0e25ebdde))
+
 ## [3.2.0](https://github.com/markusfalk/cd-config-server/compare/v3.1.0...v3.2.0) (2021-05-17)
 
 

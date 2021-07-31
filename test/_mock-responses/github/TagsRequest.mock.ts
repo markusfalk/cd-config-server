@@ -1,7 +1,7 @@
-import { AxiosResponse } from 'axios';
-import { of } from 'rxjs';
+import { AxiosResponse, AxiosError } from 'axios';
+import { of, throwError } from 'rxjs';
 
-import { HttpService } from '@nestjs/common';
+import { HttpException, HttpService } from '@nestjs/common';
 import { Tag } from 'src/github/_interfaces/tag.interface';
 
 const responseWithoutTags = [];
@@ -40,4 +40,23 @@ export function mockTagsResponseGithub(
     config: {},
   };
   jest.spyOn(httpService, 'get').mockImplementationOnce(() => of(result));
+}
+
+export function mockTagsResponseGithubWithHttpError(httpService: HttpService) {
+  // const error = new HttpException('foo error', 123);
+  const error: Partial<AxiosError> = {
+    code: '404',
+    response: {
+      status: 404,
+      data: '',
+      statusText: 'no no',
+      headers: 'any',
+      config: {},
+    },
+    isAxiosError: true,
+  };
+
+  jest
+    .spyOn(httpService, 'get')
+    .mockImplementationOnce(() => throwError(error));
 }

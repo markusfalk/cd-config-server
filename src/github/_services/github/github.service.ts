@@ -1,6 +1,7 @@
 import { atob } from 'atob';
+import { AxiosError } from 'axios';
 import { combineLatest, Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
 
 import { HttpService, HttpStatus, Injectable } from '@nestjs/common';
 
@@ -65,6 +66,7 @@ export class GithubService {
 
   private getRemoteTags(repo: string): Observable<TagCollection[]> {
     const url = `${this.githubBaseUrl}/repos/${this.githubUserName}/${repo}-config/git/refs/tags`;
+
     return this.http.get<Tag[]>(url, this.config).pipe(
       switchMap((response) => {
         const tags = response.data.map((tag: Tag) => {
@@ -83,6 +85,13 @@ export class GithubService {
             httpStatus: HttpStatus.NOT_FOUND,
           });
         }
+      }),
+
+      catchError((err: AxiosError) => {
+        return this.errorService.handleHttpError({
+          errorMessage: err.message,
+          httpStatus: err.response.status,
+        });
       }),
     );
   }
@@ -115,7 +124,14 @@ export class GithubService {
       }
     });
 
-    return of(allFiles);
+    if (allFiles.length) {
+      return of(allFiles);
+    } else {
+      return this.errorService.handleHttpError({
+        errorMessage: `No configs found for environment ${environment}.`,
+        httpStatus: HttpStatus.NOT_FOUND,
+      });
+    }
   }
 
   private getFileContents(trees: Tree[][], appid: string) {

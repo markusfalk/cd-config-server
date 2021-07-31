@@ -51,10 +51,7 @@ describe('AppConfigService', () => {
       .pipe(
         catchError((err: HttpException) => {
           expect(err).toBeInstanceOf(HttpException);
-          expect(err.getResponse()).toEqual({
-            error: 'SOURCE not configured',
-            status: 400,
-          });
+          expect(err.message).toEqual('SOURCE not configured');
           expect(err.getStatus()).toEqual(400);
           done();
           return of(err);

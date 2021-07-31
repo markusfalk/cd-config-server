@@ -1,12 +1,20 @@
 import * as request from 'supertest';
 
-import { HttpModule, HttpService, INestApplication } from '@nestjs/common';
+import {
+  HttpException,
+  HttpModule,
+  HttpService,
+  INestApplication,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
 import { AppModule } from '../src/app.endpoint/app.module';
 import { mockFileContentRequestGithub } from './_mock-responses/github/FileContentsRequest.mock';
-import { mockTagsResponseGithub } from './_mock-responses/github/TagsRequest.mock';
+import {
+  mockTagsResponseGithub,
+  mockTagsResponseGithubWithHttpError,
+} from './_mock-responses/github/TagsRequest.mock';
 import { mockTreesRequestGithub } from './_mock-responses/github/TreesRequest.mock';
 import { mockConfigurationService } from './mockConfigurationService';
 
@@ -127,6 +135,25 @@ describe('Config Endpoints (e2e)', () => {
       content: environment,
     });
   });
+
+  // TODO: how???
+  // it('should throw error on unkown repository', async () => {
+  //   const appid = 'unknown';
+  //   const version = '1.0.0';
+  //   const environment = 'test';
+
+  //   mockTagsResponseGithubWithHttpError(httpService);
+
+  //   const response = await request(app.getHttpServer())
+  //     .get(`/${appid}/${version}/${environment}`)
+  //     .expect(404);
+  //   expect(response).toBeInstanceOf(HttpException);
+  //   // expect(response).toEqual('foooooooo');
+  // });
+
+  // it('should throw error on unkown app version', () => {});
+
+  // it('should throw error on unkown app environment', () => {});
 
   afterAll(async () => {
     await app.close();

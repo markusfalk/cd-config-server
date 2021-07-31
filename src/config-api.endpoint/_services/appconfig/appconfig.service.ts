@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../../_interfaces/config.interface';
 import { ConfigurationService } from '../../../configuration/configuration/configuration.service';
@@ -10,6 +10,7 @@ import { GithubService } from '../../../github/_services/github/github.service';
 import { GitlabService } from '../../../gitlab/gitlab/gitlab.service';
 import { SemanticVersioningService } from '../../../semantic-versioning/semantic-versioning/semantic-versioning.service';
 import { FileSystemService } from '../../../filesystem/_services/file-system/file-system.service';
+import { ErrorService } from '../../../error/error/error.service';
 
 @Injectable()
 export class AppConfigService {
@@ -19,6 +20,7 @@ export class AppConfigService {
     private readonly gitlabService: GitlabService,
     private readonly semverService: SemanticVersioningService,
     private readonly fileSystemService: FileSystemService,
+    private readonly errorService: ErrorService,
   ) {}
 
   private getGithubConfig(
@@ -33,6 +35,7 @@ export class AppConfigService {
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
         catchError((err: AxiosError) => {
+          console.log('throw', err);
           return throwError(err);
         }),
       );
@@ -49,7 +52,7 @@ export class AppConfigService {
         switchMap((configFiles) =>
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
-        catchError((err: AxiosError) => {
+        catchError((err) => {
           return throwError(err);
         }),
       );
@@ -73,15 +76,10 @@ export class AppConfigService {
   }
 
   private throwInvalidSourceError() {
-    const err = new HttpException(
-      {
-        status: HttpStatus.BAD_REQUEST,
-        // TODO: be more specific.
-        error: `SOURCE not configured`,
-      },
-      HttpStatus.BAD_REQUEST,
-    );
-    return throwError(err);
+    return this.errorService.handleHttpError({
+      errorMessage: `SOURCE not configured`,
+      httpStatus: HttpStatus.BAD_REQUEST,
+    });
   }
 
   getConfig(

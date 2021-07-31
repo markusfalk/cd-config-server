@@ -4,6 +4,7 @@ import { ConfigApiModule } from '../../config-api.endpoint/config-api.module';
 
 import { AppConfigService } from '../../config-api.endpoint/_services/appconfig/appconfig.service';
 import { ConfigurationModule } from '../../configuration/configuration.module';
+import { ErrorModule } from '../../error/error.module';
 import { FilesystemModule } from '../../filesystem/filesystem.module';
 import { GithubModule } from '../../github/github.module';
 import { GitlabModule } from '../../gitlab/gitlab.module';
@@ -24,6 +25,7 @@ describe('AppController', () => {
         ConfigurationModule,
         SemanticVersioningModule,
         ConfigApiModule,
+        ErrorModule,
       ],
       controllers: [AppController],
       providers: [AppConfigService],

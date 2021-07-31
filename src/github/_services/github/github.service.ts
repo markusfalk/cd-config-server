@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { HttpService, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../../_interfaces/config.interface';
 import { FileBlobGithub } from '../../_interfaces/file-blob.interface';
@@ -13,6 +13,7 @@ import { ConfigurationService } from '../../../configuration/configuration/confi
 import { ErrorService } from '../../../error/error/error.service';
 import { Tree } from '../../_interfaces/tree.interface';
 import { Trees } from '../../_interfaces/trees.interface';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class GithubService {

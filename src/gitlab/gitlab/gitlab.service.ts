@@ -2,11 +2,12 @@ import { AxiosRequestConfig } from 'axios';
 import { combineLatest, Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { HttpService, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 
 import { Config } from '../../_interfaces/config.interface';
 import { ConfigurationService } from '../../configuration/configuration/configuration.service';
 import { ErrorService } from '../../error/error/error.service';
+import { HttpService } from '@nestjs/axios';
 
 export interface GitlabProject {
   id: number;

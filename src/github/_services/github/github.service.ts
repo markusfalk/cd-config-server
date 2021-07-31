@@ -90,7 +90,7 @@ export class GithubService {
 
       catchError((err: AxiosError) => {
         return this.errorService.handleHttpError({
-          errorMessage: err.message,
+          errorMessage: `Could not find '${repo}-config' repository for configured user.`,
           httpStatus: err.response.status,
         });
       }),

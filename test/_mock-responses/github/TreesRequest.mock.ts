@@ -1,13 +1,12 @@
 import { AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { HttpService } from '@nestjs/common';
-
 import {
   mockTreeDevelopment,
   mockTreeStaging,
 } from '../../_mock-services/mockTree';
 import { Trees } from '../../../src/github/_interfaces/trees.interface';
+import { HttpService } from '@nestjs/axios';
 
 export function mockTreesRequestGithub(httpService: HttpService) {
   const result: AxiosResponse<Trees> = {

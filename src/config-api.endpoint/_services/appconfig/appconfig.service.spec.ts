@@ -1,7 +1,8 @@
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { HttpException, HttpModule } from '@nestjs/common';
+import { HttpException } from '@nestjs/common';
+
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../../../configuration/configuration/configuration.service';
@@ -12,6 +13,7 @@ import { SemanticVersioningService } from '../../../semantic-versioning/semantic
 import { AppConfigService } from './appconfig.service';
 import { ErrorService } from '../../../error/error/error.service';
 import { FileSystemService } from '../../../filesystem/_services/file-system/file-system.service';
+import { HttpModule } from '@nestjs/axios';
 
 describe('AppConfigService', () => {
   let service: AppConfigService;

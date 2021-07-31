@@ -1,4 +1,4 @@
-import { CacheModule, HttpModule, Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { ErrorService } from '../error/error/error.service';
 
 import { AppConfigService } from './_services/appconfig/appconfig.service';
@@ -8,6 +8,7 @@ import { ConfigApiController } from './config-api/config-api.controller';
 import { FilesystemModule } from '../filesystem/filesystem.module';
 import { GithubModule } from '../github/github.module';
 import { GitlabModule } from '../gitlab/gitlab.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   controllers: [ConfigApiController],

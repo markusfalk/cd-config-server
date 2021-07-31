@@ -1,4 +1,4 @@
-import { HttpModule } from '@nestjs/common';
+import { HttpModule } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigApiModule } from '../../../config-api.endpoint/config-api.module';
 import { ConfigurationModule } from '../../../configuration/configuration.module';

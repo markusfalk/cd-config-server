@@ -1,4 +1,4 @@
-import { CacheModule, HttpModule } from '@nestjs/common';
+import { CacheModule } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigApiController } from './config-api.controller';
@@ -9,6 +9,7 @@ import { ConfigurationModule } from '../../configuration/configuration.module';
 import { FilesystemModule } from '../../filesystem/filesystem.module';
 import { SemanticVersioningModule } from '../../semantic-versioning/semantic-versioning.module';
 import { ConfigApiModule } from '../config-api.module';
+import { HttpModule } from '@nestjs/axios';
 
 describe('ConfigApiController', () => {
   let controller: ConfigApiController;

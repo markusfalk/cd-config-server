@@ -1,7 +1,7 @@
+import { HttpService } from '@nestjs/axios';
 import { AxiosResponse, AxiosError } from 'axios';
 import { of, throwError } from 'rxjs';
 
-import { HttpException, HttpService } from '@nestjs/common';
 import { Tag } from 'src/github/_interfaces/tag.interface';
 
 const responseWithoutTags = [];

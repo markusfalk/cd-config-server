@@ -1,6 +1,6 @@
 import * as request from 'supertest';
 
-import { HttpModule, INestApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
@@ -8,6 +8,7 @@ import { FileAccessService } from '../src/filesystem/_services/file-access/file-
 import { AppModule } from '../src/app.endpoint/app.module';
 import { mockConfigurationService } from './mockConfigurationService';
 import { mockFileAccessResponse } from './mockFileAccessResponse';
+import { HttpModule } from '@nestjs/axios';
 
 const mockNodeEnvironmentVariables = {
   SOURCE: 'filesystem',

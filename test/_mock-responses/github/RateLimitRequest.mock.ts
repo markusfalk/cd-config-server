@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios';
 import { of } from 'rxjs';
 
-import { HttpService } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
 
 export function mockRateLimitRequest(httpService: HttpService) {
   const result: AxiosResponse = {

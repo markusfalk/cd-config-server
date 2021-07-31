@@ -35,7 +35,6 @@ export class AppConfigService {
           this.semverService.findMatchingFile(configFiles, appversion),
         ),
         catchError((err: AxiosError) => {
-          console.log('throw', err);
           return throwError(err);
         }),
       );

@@ -1,6 +1,6 @@
 import * as request from 'supertest';
 
-import { HttpService, INestApplication } from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ConfigurationService } from '../src/configuration/configuration/configuration.service';
@@ -10,7 +10,7 @@ import { mockProjectsRequestGitlab } from './_mock-responses/gitlab/ProjectsRequ
 import { mockTagsResponseGitlab } from './_mock-responses/gitlab/TagsRequest.mock';
 import { mockTreesResponseGitlab } from './_mock-responses/gitlab/TreesRequest.mock';
 import { mockConfigurationService } from './mockConfigurationService';
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule, HttpService } from '@nestjs/axios';
 
 const mockNodeEnvironmentVariables = {
   SOURCE: 'gitlab',
